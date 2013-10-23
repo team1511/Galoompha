@@ -20,10 +20,10 @@ Children:
           default: '2'
           name: CAN ID
           validators: &id002 [CANID]
-          value: '2'
+          value: '10'
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Default Command, type: Command, validators: null, value: Angle Static}
+        name: Default Command, type: Command, validators: null, value: Index In}
   - Name: Shooter
     Base: Subsystem
     Children:
@@ -37,7 +37,7 @@ Children:
           default: '1'
           name: Input Channel (Digital)
           validators: [DigitalChannel]
-          value: '1'
+          value: '14'
         Input Module (Digital): !!robotbuilder.data.properties.ChoicesProperty
           choices: ['1', '2']
           default: '1'
@@ -53,7 +53,7 @@ Children:
           default: '2'
           name: CAN ID
           validators: *id002
-          value: '3'
+          value: '8'
     - Name: Kicker
       Base: Servo
       Children: []
@@ -69,7 +69,7 @@ Children:
           default: '1'
           name: Output Channel (PWM)
           validators: &id006 [PWMOutput]
-          value: '1'
+          value: '5'
     - Name: Blocker
       Base: Servo
       Children: []
@@ -85,7 +85,7 @@ Children:
           default: '1'
           name: Output Channel (PWM)
           validators: *id006
-          value: '2'
+          value: '4'
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Default Command, type: Command, validators: null, value: Shooter Idle}
@@ -107,7 +107,7 @@ Children:
           default: '1'
           name: Input Channel (Analog)
           validators: [AnalogInput]
-          value: '1'
+          value: '6'
     - Name: Lift Leadscrew
       Base: CAN Jaguar
       Children: []
@@ -117,7 +117,7 @@ Children:
           default: '2'
           name: CAN ID
           validators: *id002
-          value: '4'
+          value: '9'
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Default Command, type: Command, validators: null, value: Angle Static}
@@ -266,6 +266,14 @@ Children:
 - Name: Commands
   Base: Commands
   Children:
+  - Name: Read Debug
+    Base: Command
+    Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: None}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
   - Name: Autonomous Command
     Base: Command
     Children: []

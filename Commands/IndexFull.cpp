@@ -21,11 +21,11 @@ void IndexFull::Initialize() {
 }
 // Called repeatedly when this Command is scheduled to run
 void IndexFull::Execute() {
-	
+	Robot::indexer->Spin(0.0);
 }
 // Make this return true when this Command no longer needs to run execute()
 bool IndexFull::IsFinished() {
-	return false;
+	return !Robot::shooter->holdsDisk();
 }
 // Called once after isFinished returns true
 void IndexFull::End() {

@@ -21,7 +21,7 @@ void IndexManual::Initialize() {
 }
 // Called repeatedly when this Command is scheduled to run
 void IndexManual::Execute() {
-	
+	Robot::indexer->Spin(Robot::oi->getAuxStick()->GetX(GenericHID::kRightHand));
 }
 // Make this return true when this Command no longer needs to run execute()
 bool IndexManual::IsFinished() {
