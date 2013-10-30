@@ -23,7 +23,7 @@ Children:
           value: '10'
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Default Command, type: Command, validators: null, value: Index In}
+        name: Default Command, type: Command, validators: null, value: Index Cycle}
   - Name: Shooter
     Base: Subsystem
     Children:
@@ -120,7 +120,7 @@ Children:
           value: '9'
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Default Command, type: Command, validators: null, value: Angle Static}
+        name: Default Command, type: Command, validators: null, value: Lift Static}
   Properties: {}
 - Name: Operator Interface
   Base: OI
@@ -157,14 +157,14 @@ Children:
           name: Command
           type: Command
           validators: &id009 [TypeDropdownSelected]
-          value: Angle to Feed
+          value: Lift Feed
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: &id010 ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
             '12']
           default: '1'
           name: Button
           validators: null
-          value: '1'
+          value: '2'
         Joystick: !!robotbuilder.data.properties.ParentProperty {default: parent,
           name: Joystick, validators: null, value: Aux Stick}
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
@@ -216,13 +216,13 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: Angle Manual
+          value: Lift Manual
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
           name: Button
           validators: null
-          value: '1'
+          value: '3'
         Joystick: !!robotbuilder.data.properties.ParentProperty {default: parent,
           name: Joystick, validators: null, value: Virtual Stick}
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
@@ -298,6 +298,12 @@ Children:
         name: Requires, type: Subsystem, validators: null, value: Indexer}
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
+  - Name: Index Cycle
+    Base: Command Group
+    Children: []
+    Properties:
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
   - Name: Index Manual
     Base: Command
     Children: []
@@ -306,7 +312,7 @@ Children:
         name: Requires, type: Subsystem, validators: null, value: Indexer}
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
-  - Name: Angle to Feed
+  - Name: Lift Feed
     Base: PID Command
     Children: []
     Properties:
@@ -325,7 +331,7 @@ Children:
       Tolerance: !!robotbuilder.data.properties.DoubleProperty {default: 0.2, name: Tolerance,
         validators: null, value: 0.2}
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Requires, type: Subsystem, validators: null, value: Angling Tool}
+        name: Requires, type: Subsystem, validators: null, value: None}
       Continuous: !!robotbuilder.data.properties.BooleanProperty {default: false,
         name: Continuous, validators: null, value: false}
       Maximum Output: !!robotbuilder.data.properties.DoubleProperty {default: 1, name: Maximum Output,
@@ -350,7 +356,7 @@ Children:
         validators: null, value: 5.0}
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
-  - Name: Angle Static
+  - Name: Lift Static
     Base: PID Command
     Children: []
     Properties:
@@ -369,7 +375,7 @@ Children:
       Tolerance: !!robotbuilder.data.properties.DoubleProperty {default: 0.2, name: Tolerance,
         validators: null, value: 0.2}
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Requires, type: Subsystem, validators: null, value: Angling Tool}
+        name: Requires, type: Subsystem, validators: null, value: None}
       Continuous: !!robotbuilder.data.properties.BooleanProperty {default: false,
         name: Continuous, validators: null, value: false}
       Maximum Output: !!robotbuilder.data.properties.DoubleProperty {default: 1, name: Maximum Output,
@@ -394,7 +400,7 @@ Children:
         validators: null, value: 5.0}
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
-  - Name: Angle Manual
+  - Name: Lift Manual
     Base: Command
     Children: []
     Properties:

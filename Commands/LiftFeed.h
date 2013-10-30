@@ -9,8 +9,8 @@
 // it from being updated in th future.
 
 
-#ifndef ANGLE_STATIC_H
-#define ANGLE_STATIC_H
+#ifndef LIFT_FEED_H
+#define LIFT_FEED_H
 
 
 #include "Commands/Subsystem.h"
@@ -21,14 +21,16 @@
  *
  * @author ExampleAuthor
  */
-class AngleStatic: public Command {
+class LiftFeed: public PIDCommand {
 public:
-	AngleStatic();
+	LiftFeed();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+	virtual double ReturnPIDInput();
+	virtual void UsePIDOutput(double output);
 };
 
 #endif

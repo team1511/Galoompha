@@ -9,26 +9,20 @@
 // it from being updated in th future.
 
 
-#ifndef ANGLE_MANUAL_H
-#define ANGLE_MANUAL_H
 
+#ifndef INDEX_CYCLE_H
+#define INDEX_CYCLE_H
 
-#include "Commands/Subsystem.h"
-#include "../Robot.h"
+#include "Commands/CommandGroup.h"
 
 /**
  *
  *
  * @author ExampleAuthor
  */
-class AngleManual: public Command {
-public:
-	AngleManual();
-	virtual void Initialize();
-	virtual void Execute();
-	virtual bool IsFinished();
-	virtual void End();
-	virtual void Interrupted();
+class IndexCycle: public CommandGroup {
+public:	
+	IndexCycle();
 };
 
 #endif

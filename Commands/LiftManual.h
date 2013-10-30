@@ -9,8 +9,8 @@
 // it from being updated in th future.
 
 
-#ifndef ANGLE_TO_FEED_H
-#define ANGLE_TO_FEED_H
+#ifndef LIFT_MANUAL_H
+#define LIFT_MANUAL_H
 
 
 #include "Commands/Subsystem.h"
@@ -21,9 +21,9 @@
  *
  * @author ExampleAuthor
  */
-class AngletoFeed: public Command {
+class LiftManual: public Command {
 public:
-	AngletoFeed();
+	LiftManual();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();

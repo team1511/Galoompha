@@ -9,25 +9,21 @@
 // it from being updated in th future.
 
 
-#ifndef INDEX_IN_H
-#define INDEX_IN_H
+#ifndef LIFT_STATIC_H
+#define LIFT_STATIC_H
 
 
 #include "Commands/Subsystem.h"
 #include "../Robot.h"
-
-// note: this probably shouldn't be the default energy level
-// for the indexer: if we switch back from manual mode, this
-// will run at least once
 
 /**
  *
  *
  * @author ExampleAuthor
  */
-class IndexIn: public Command {
+class LiftStatic: public Command {
 public:
-	IndexIn();
+	LiftStatic();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
