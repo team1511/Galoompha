@@ -52,8 +52,8 @@ OI::OI() {
 	SmartDashboard::PutData("Read Debug", new ReadDebug());
 	SmartDashboard::PutData("Autonomous Command", new AutonomousCommand());
 	SmartDashboard::PutData("Index In", new IndexIn());
-	SmartDashboard::PutData("Index Full", new IndexFull());
 	SmartDashboard::PutData("Index Cycle", new IndexCycle());
+	SmartDashboard::PutData("Index Full", new IndexFull());
 	SmartDashboard::PutData("Index Manual", new IndexManual());
 	SmartDashboard::PutData("Lift Feed", new LiftFeed());
 	SmartDashboard::PutData("Lift Static", new LiftStatic());

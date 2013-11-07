@@ -21,7 +21,7 @@
  *
  * @author ExampleAuthor
  */
-class LiftStatic: public Command {
+class LiftStatic: public PIDCommand {
 public:
 	LiftStatic();
 	virtual void Initialize();
@@ -29,6 +29,8 @@ public:
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+	virtual double ReturnPIDInput();
+	virtual void UsePIDOutput(double output);
 };
 
 #endif

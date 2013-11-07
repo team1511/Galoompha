@@ -17,11 +17,17 @@ LiftManual::LiftManual() {
 }
 // Called just before this Command runs the first time
 void LiftManual::Initialize() {
-	
 }
 // Called repeatedly when this Command is scheduled to run
 void LiftManual::Execute() {
+	float slider = -1 * Robot::oi->getVirtualStick()->GetY();
 	
+	float post = slider;
+	if (post < 0.2f && post > -0.2f) {
+		post = 0;
+	}
+	
+	Robot::anglingTool->setManualSpeed(slider * 0.5);
 }
 // Make this return true when this Command no longer needs to run execute()
 bool LiftManual::IsFinished() {
