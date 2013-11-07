@@ -31,6 +31,7 @@ void LiftStatic::Execute() {
 	
 	// hackn! to turn pid calculations off while disabled
 //	if (Robot::getInstance().IsEnabled()) {
+//		printf("Enabling\n");
 //		GetPIDController()->Enable();
 //	}
 }
@@ -55,9 +56,10 @@ double LiftStatic::ReturnPIDInput() {
 }
 void LiftStatic::UsePIDOutput(double output) {
 	// hackn! to turn pid calculations off while disabled
-//	if (Robot::getInstance().IsDisabled()) {
-//		GetPIDController()->Disable();
-//	}
+	if (Robot::getInstance().IsDisabled()) {
+		printf("Disabling\n");
+		GetPIDController()->Disable();
+	}
 
 	// is it bad for the motor if we write 0.005 AND IT does nothing?
 	Robot::anglingTool->liftLeadscrew->Set(output);
