@@ -8,7 +8,6 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in th future.
 #include "LiftFeed.h"
-
 #define ANGLE_FEED 0.44f
 LiftFeed::LiftFeed() :
 	PIDCommand("Lift Feed", ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D, ANGLE_PID_PERIOD)
@@ -41,14 +40,11 @@ void LiftFeed::End() {
 void LiftFeed::Interrupted() {
 	GetPIDController()->Disable();
 }
-
 double LiftFeed::ReturnPIDInput() {
 	double v = Robot::anglingTool->getAngle(); 
-	printf("F input %f\n", v);
 	return v;
 }
 void LiftFeed::UsePIDOutput(double output) {
-	printf("F output %f\n", output);
 	// is it bad for the motor if we write 0.005 AND IT does nothing?
-	Robot::anglingTool->liftLeadscrew->Set(output);
+	Robot::anglingTool->setSpeed(output);
 }

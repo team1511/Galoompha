@@ -21,11 +21,13 @@ void WaittoShoot::Initialize() {
 }
 // Called repeatedly when this Command is scheduled to run
 void WaittoShoot::Execute() {
-	
+	float slider = Robot::oi->getVirtualStick()->GetX();
+	float speed = linearRangeScale(slider, -1.0f, 1.0f, 0.3f, 1.0f);
+	Robot::shooter->setTargetSpeed(speed);
 }
 // Make this return true when this Command no longer needs to run execute()
 bool WaittoShoot::IsFinished() {
-	return false;
+	return Robot::shooter->atTargetSpeed() && Robot::shooter->holdsDisk();
 }
 // Called once after isFinished returns true
 void WaittoShoot::End() {
