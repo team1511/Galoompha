@@ -30,10 +30,9 @@ void LiftStatic::Execute() {
 	GetPIDController()->SetSetpoint(slider);
 	
 	// hackn! to turn pid calculations off while disabled
-//	if (Robot::getInstance().IsEnabled()) {
-//		printf("Enabling\n");
-//		GetPIDController()->Enable();
-//	}
+	if (!GetPIDController()->IsEnabled()) {
+		GetPIDController()->Enable();
+	}
 }
 // Make this return true when this Command no longer needs to run execute()
 bool LiftStatic::IsFinished() {
@@ -50,17 +49,20 @@ void LiftStatic::Interrupted() {
 	GetPIDController()->Disable();
 }
 
+// this function MAY NEVER call PIDController::GetError()
 double LiftStatic::ReturnPIDInput() {
 	double v = Robot::anglingTool->getAngle(); 
+	
+	// if this code were in UsePIDOutput, the call
+	// to Disable would call UsePIDOutput. to infinite loop.
+	if (Robot::getInstance().IsDisabled()) {
+		printf("Disabling\n");
+		GetPIDController()->Reset();
+	}
 	return v;
 }
 void LiftStatic::UsePIDOutput(double output) {
-	// hackn! to turn pid calculations off while disabled
-	if (Robot::getInstance().IsDisabled()) {
-		printf("Disabling\n");
-		GetPIDController()->Disable();
-	}
-
+	printf("o: %f\n",output);
 	// is it bad for the motor if we write 0.005 AND IT does nothing?
 	Robot::anglingTool->liftLeadscrew->Set(output);
 }
