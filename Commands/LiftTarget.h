@@ -9,8 +9,8 @@
 // it from being updated in th future.
 
 
-#ifndef READ_DEBUG_H
-#define READ_DEBUG_H
+#ifndef LIFTTARGET_H
+#define LIFTTARGET_H
 
 
 #include "Commands/Subsystem.h"
@@ -21,14 +21,16 @@
  *
  * @author ExampleAuthor
  */
-class ReadDebug: public Command {
+class LiftTarget: public PIDCommand {
 public:
-	ReadDebug();
+	LiftTarget(float angle);
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+	virtual double ReturnPIDInput();
+	virtual void UsePIDOutput(double output);
 };
 
 #endif

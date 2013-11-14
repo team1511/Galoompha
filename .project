@@ -17,4 +17,10 @@
 		<nature>org.eclipse.cdt.core.cnature</nature>
 		<nature>org.eclipse.cdt.core.ccnature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>WPILIBH</name>
+			<value>file:/home/msto/code/frc/WPILibH</value>
+		</variable>
+	</variableList>
 </projectDescription>

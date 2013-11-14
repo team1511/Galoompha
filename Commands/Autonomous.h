@@ -9,26 +9,20 @@
 // it from being updated in th future.
 
 
-#ifndef POST_KICK_WAIT_H
-#define POST_KICK_WAIT_H
 
+#ifndef AUTONOMOUS_H
+#define AUTONOMOUS_H
 
-#include "Commands/Subsystem.h"
-#include "../Robot.h"
+#include "Commands/CommandGroup.h"
 
 /**
  *
  *
  * @author ExampleAuthor
  */
-class PostKickWait: public Command {
-public:
-	PostKickWait();
-	virtual void Initialize();
-	virtual void Execute();
-	virtual bool IsFinished();
-	virtual void End();
-	virtual void Interrupted();
+class Autonomous: public CommandGroup {
+public:	
+	Autonomous();
 };
 
 #endif

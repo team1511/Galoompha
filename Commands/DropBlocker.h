@@ -17,7 +17,7 @@
 #include "../Robot.h"
 
 /**
- *
+ * Sets the servo to a position; ends
  *
  * @author ExampleAuthor
  */
@@ -29,6 +29,7 @@ public:
 	virtual bool IsFinished();
 	virtual void End();
 	virtual void Interrupted();
+private:
 };
 
 #endif

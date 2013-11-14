@@ -10,23 +10,15 @@
 
 
 
+#include "Autonomous.h"
+#include "LiftTarget.h"
 #include "ShootDisk.h"
-#include "Commands/WaitCommand.h"
-#include "MoveKickerForward.h"
-#include "RetractKicker.h"
-#include "RaiseBlocker.h"
-#include "WaitToShoot.h"
-#include "DropBlocker.h"
 
-// should these constants really be pulled out?
-// this style is rather legible...
-#define DROP_TIME 0.5
-#define GUARD_LOWER_TIME 0.3
-#define PUSHER_OUT_TIME 0.5
-#define PUSHER_BACK_TIME 0.3
-#define SPEED_TIMEOUT 3.0
+// far corner to high goal
+#define SHOOT_ANGLE		-0.93
+#define SHOOT_POWER		0.63
 
-ShootDisk::ShootDisk() {
+Autonomous::Autonomous() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());
@@ -43,17 +35,8 @@ ShootDisk::ShootDisk() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
-
-	// spin up wheel, wait
-	AddSequential(new WaittoShoot(), SPEED_TIMEOUT);
-
-	AddSequential(new WaitCommand(DROP_TIME));
-	// wait, drop, wait, kick, wait, retract, wait, raise
-	AddSequential(new DropBlocker());
-	AddSequential(new WaitCommand(GUARD_LOWER_TIME));
-	AddSequential(new MoveKickerForward());
-	AddSequential(new WaitCommand(PUSHER_OUT_TIME));
-	AddSequential(new RetractKicker());
-	AddSequential(new WaitCommand(PUSHER_BACK_TIME));
-	AddSequential(new RaiseBlocker());
+	AddSequential(new LiftTarget(SHOOT_ANGLE));
+	AddSequential(new ShootDisk());
+	AddSequential(new ShootDisk());
+	AddSequential(new ShootDisk());
 }

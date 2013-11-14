@@ -27,7 +27,7 @@ void LiftManual::Execute() {
 		post = 0;
 	}
 	
-	Robot::anglingTool->setManualSpeed(slider * 0.5);
+	Robot::anglingTool->setSpeed(slider * 0.5);
 }
 // Make this return true when this Command no longer needs to run execute()
 bool LiftManual::IsFinished() {
