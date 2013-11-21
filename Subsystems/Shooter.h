@@ -11,6 +11,7 @@
 #define SHOOTER_H
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
+#include "../Utils/MonoEncoder.h"
 /**
  *
  *
@@ -21,6 +22,9 @@ class ShooterWheel: public Subsystem {
 // for methods that implement subsystem capabilities
 private:
 	CANJaguar* shooterWheel;
+	MonoEncoder* encoder;
+	
+	double target;
 public:
 	ShooterWheel();
 	void InitDefaultCommand();
