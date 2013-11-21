@@ -17,6 +17,7 @@
 #include "RaiseBlocker.h"
 #include "WaitToShoot.h"
 #include "DropBlocker.h"
+#include "MaintainSpeed.h"
 
 // should these constants really be pulled out?
 // this style is rather legible...
@@ -45,8 +46,11 @@ ShootDisk::ShootDisk() {
 	// arm.
 
 	// spin up wheel, wait
+	AddSequential(new PrintCommand("Waiting!"));
 	AddSequential(new WaittoShoot(), SPEED_TIMEOUT);
 
+	AddParallel(new MaintainSpeed());
+	AddSequential(new PrintCommand("Go!!"));
 	AddSequential(new WaitCommand(DROP_TIME));
 	// wait, drop, wait, kick, wait, retract, wait, raise
 	AddSequential(new DropBlocker());
@@ -56,4 +60,5 @@ ShootDisk::ShootDisk() {
 	AddSequential(new RetractKicker());
 	AddSequential(new WaitCommand(PUSHER_BACK_TIME));
 	AddSequential(new RaiseBlocker());
+	AddSequential(new PrintCommand("Done!!!"));
 }

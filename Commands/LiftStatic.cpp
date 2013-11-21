@@ -60,7 +60,6 @@ double LiftStatic::ReturnPIDInput() {
 	return v;
 }
 void LiftStatic::UsePIDOutput(double output) {
-	printf("o: %f\n",output);
 	// is it bad for the motor if we write 0.005 AND IT does nothing?
 	Robot::anglingTool->setSpeed(output);
 }
