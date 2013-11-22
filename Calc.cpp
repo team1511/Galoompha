@@ -1,8 +1,18 @@
 #include "Calc.h"
 
-float linearRangeScale(float v, float min, float max,
-		float newMin, float newMax) {
-	float oldr = (max - min);
-	float newr = (newMax - newMin);
+double linearRangeScale(double v, double min, double max,
+		double newMin, double newMax) {
+	double oldr = (max - min);
+	double newr = (newMax - newMin);
 	return (((v - min) * newr) / oldr) + newMin;
+}
+
+double bound(double val, double min, double max) {
+	if (val < min) {
+		return min;
+	}
+	if (val > max) {
+		return max;
+	}
+	return val;
 }

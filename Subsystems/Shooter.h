@@ -12,15 +12,12 @@
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
 #include "../Utils/MonoEncoder.h"
-/**
- *
- *
- * @author ExampleAuthor
- */
+#include "../Utils/ThreadlessPID.h"
+
 class ShooterWheel: public Subsystem {
-// It's desirable that everything possible under private except
-// for methods that implement subsystem capabilities
 private:
+	ThreadlessPID pid;
+
 	CANJaguar* shooterWheel;
 	MonoEncoder* encoder;
 	
@@ -34,10 +31,7 @@ public:
 	void runWheelFromOI();
 };
 
-
 class ShooterOther: public Subsystem {
-// It's desirable that everything possible under private except
-// for methods that implement subsystem capabilities
 private:
 	DigitalInput* loadSensor;
 	Servo* kicker;

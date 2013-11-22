@@ -1,7 +1,9 @@
 #ifndef __CALC__H_
 #define __CALC__H_
 
-float linearRangeScale(float v, float min, float max,
-		float newMin, float newMax);
+double linearRangeScale(double val, double min, double max,
+		double newMin, double newMax);
+
+double bound(double val, double min, double max);
 
 #endif

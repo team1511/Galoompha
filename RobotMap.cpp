@@ -42,6 +42,7 @@ void RobotMap::init() {
 	anglingToolLiftLeadscrew = new CANJaguar(9);
 	
 	shooterEncoder = new MonoEncoder(5, 82, 250);
+	lw->AddSensor("Shooter Wheel", "Encoder", shooterEncoder);
 	
 	
 }
