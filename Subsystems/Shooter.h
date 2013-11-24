@@ -28,7 +28,6 @@ public:
 
 	void setTargetSpeed(float speed);
 	bool atTargetSpeed();
-	void runWheelFromOI();
 };
 
 class ShooterOther: public Subsystem {

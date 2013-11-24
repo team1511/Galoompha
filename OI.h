@@ -1,7 +1,15 @@
 #ifndef OI_H
 #define OI_H
 #include "WPILib.h"
+
 class OI {
+public:
+	OI();
+
+	double getLeftDrivePower();
+	double getRightDrivePower();
+	double getSpeedSliderValue();
+	double getAngleSliderValue();
 private:
 	Joystick* virtualStick;
 	JoystickButton* indexBroken;
@@ -14,12 +22,5 @@ private:
 
 	Joystick* rightDrive;
 	Joystick* leftDrive;
-public:
-	OI();
-
-	Joystick* getLeftDrive();
-	Joystick* getRightDrive();
-	Joystick* getAuxStick();
-	Joystick* getVirtualStick();
 };
 #endif

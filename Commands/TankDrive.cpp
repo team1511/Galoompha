@@ -1,5 +1,4 @@
 #include "TankDrive.h"
-#include "../Calc.h"
 
 TankDrive::TankDrive(Drive::NeutralMode coast) {
 	Requires(Robot::drive);
@@ -10,18 +9,10 @@ void TankDrive::Initialize() {
 	Robot::drive->SetCoast(coasting);
 }
 
-double getPower(Joystick* stick) {
-	Joystick* stick_l = Robot::oi->getLeftDrive();
-	double input = stick->GetY();
-	bool slow = stick->GetRawButton(1);
-	bool turbo = stick->GetRawButton(2);
-	return powerJoystickCurve(input, slow, turbo);
-}
-
 // Called repeatedly when this Command is scheduled to run
 void TankDrive::Execute() {
-	double power_l = getPower(Robot::oi->getLeftDrive());
-	double power_r = getPower(Robot::oi->getRightDrive());
+	double power_l = Robot::oi->getLeftDrivePower();
+	double power_r = Robot::oi->getRightDrivePower();
 	Robot::drive->SetSpeeds(power_l, power_r);
 }
 // Make this return true when this Command no longer needs to run execute()

@@ -1,5 +1,8 @@
 #include "OI.h"
+#include "Calc.h"
 #include "SmartDashboard/SmartDashboard.h"
+
+
 #include "Commands/Autonomous.h"
 #include "Commands/DropBlocker.h"
 #include "Commands/IndexCycle.h"
@@ -62,17 +65,30 @@ OI::OI() {
 			new TankDrive(Drive::kCoast));
 	SmartDashboard::PutData("Tank Drive: Brake",
 			new TankDrive(Drive::kBrake));
+}
 
+double getDrivePower(Joystick* stick) {
+	double input = stick->GetY();
+	bool slow = stick->GetRawButton(1);
+	bool turbo = stick->GetRawButton(2);
+	return powerJoystickCurve(input, slow, turbo);
 }
-Joystick* OI::getVirtualStick() {
-	return virtualStick;
+
+double OI::getLeftDrivePower() {
+	return getDrivePower(leftDrive);
 }
-Joystick* OI::getAuxStick() {
-	return auxStick;
+
+double OI::getRightDrivePower() {
+	return getDrivePower(rightDrive);
 }
-Joystick* OI::getRightDrive() {
-	return rightDrive;
+
+double OI::getSpeedSliderValue() {
+	float slider = virtualStick->GetX();
+	float speed = linearRangeScale(slider, -1.0f, 1.0f, 0.3f, 1.0f);
+	return speed;
 }
-Joystick* OI::getLeftDrive() {
-	return leftDrive;
+
+double OI::getAngleSliderValue() {
+	double pre = -1 * virtualStick->GetY();
+	return pre;
 }

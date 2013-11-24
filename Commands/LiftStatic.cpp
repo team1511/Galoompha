@@ -24,7 +24,7 @@ void LiftStatic::Initialize() {
 }
 // Called repeatedly when this Command is scheduled to run
 void LiftStatic::Execute() {
-	float slider = -1 * Robot::oi->getVirtualStick()->GetY();
+	float slider = Robot::oi->getAngleSliderValue();
 
 	GetPIDController()->SetSetpoint(slider);
 

@@ -41,8 +41,7 @@ void LiftFeed::Interrupted() {
 	GetPIDController()->Disable();
 }
 double LiftFeed::ReturnPIDInput() {
-	double v = Robot::anglingTool->getAngle(); 
-	return v;
+	return Robot::anglingTool->getAngle();
 }
 void LiftFeed::UsePIDOutput(double output) {
 	// is it bad for the motor if we write 0.005 AND IT does nothing?
