@@ -28,7 +28,7 @@ OI::OI() {
 	angleBroken = new JoystickButton(virtualStick, 3);
 	angleBroken->WhileHeld(new LiftManual());
 	coastMode = new JoystickButton(virtualStick, 5);
-	coastMode->WhileHeld(new TankDrive(Drive::modeCoast));
+	coastMode->WhileHeld(new TankDrive(Drive::kCoast));
 
 	auxStick = new Joystick(3);
 	shootButton = new JoystickButton(auxStick, 1);
@@ -59,9 +59,9 @@ OI::OI() {
 	SmartDashboard::PutData("Shooter Idle", new ShooterIdle());
 	SmartDashboard::PutData("Maintain Speed", new MaintainSpeed());
 	SmartDashboard::PutData("Tank Drive: Coast",
-			new TankDrive(Drive::modeCoast));
+			new TankDrive(Drive::kCoast));
 	SmartDashboard::PutData("Tank Drive: Brake",
-			new TankDrive(Drive::modeBrake));
+			new TankDrive(Drive::kBrake));
 
 }
 Joystick* OI::getVirtualStick() {

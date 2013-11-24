@@ -3,7 +3,7 @@
 
 TankDrive::TankDrive(Drive::NeutralMode coast) {
 	Requires(Robot::drive);
-	coasting = (coast == Drive::modeCoast);
+	coasting = coast;
 }
 // Called just before this Command runs the first time. CALLED AGAIN IF RESURRECTED, WPILIB guys!
 void TankDrive::Initialize() {

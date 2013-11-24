@@ -8,13 +8,16 @@ Drive::Drive() :
 }
 
 void Drive::InitDefaultCommand() {
-	SetDefaultCommand(new TankDrive(modeBrake));
+	SetDefaultCommand(new TankDrive(kBrake));
 }
 
-void Drive::SetCoast(bool coast) {
+void Drive::SetCoast(Drive::NeutralMode coast) {
 	CANJaguar::NeutralMode flag;
-	flag = coast ?
-			CANJaguar::kNeutralMode_Coast : CANJaguar::kNeutralMode_Brake;
+	if (coast == kCoast) {
+		flag = CANJaguar::kNeutralMode_Coast;
+	} else {
+		flag = CANJaguar::kNeutralMode_Brake;
+	}
 	leftMotor->ConfigNeutralMode(flag);
 	rightMotor->ConfigNeutralMode(flag);
 }

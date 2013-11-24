@@ -13,7 +13,7 @@ public:
 	virtual void End();
 	virtual void Interrupted();
 private:
-	bool coasting;
+	Drive::NeutralMode coasting;
 };
 
 #endif

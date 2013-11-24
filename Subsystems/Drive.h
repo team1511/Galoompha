@@ -10,13 +10,13 @@ private:
 	CANJaguar* rightMotor;
 public:
 	typedef enum {
-		modeCoast, modeBrake
+		kCoast, kBrake
 	} NeutralMode;
 
 	Drive();
 	void InitDefaultCommand();
 
-	void SetCoast(bool coast);
+	void SetCoast(NeutralMode coast);
 	void SetSpeeds(float left, float right);
 };
 
