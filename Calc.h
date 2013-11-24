@@ -6,4 +6,6 @@ double linearRangeScale(double val, double min, double max,
 
 double bound(double val, double min, double max);
 
+double powerJoystickCurve(double axisvalue, bool slow, bool turbo);
+
 #endif
