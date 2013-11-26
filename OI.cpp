@@ -44,7 +44,7 @@ OI::OI() {
 	leftDrive = new Joystick(1);
 
 	// SmartDashboard Buttons
-	SmartDashboard::PutData("Autonomous", new Autonomous());
+	SmartDashboard::PutData("Autonomous", new AutonRoutine());
 	SmartDashboard::PutData("LiftFeed", new LiftFeed());
 	SmartDashboard::PutData("Index In", new IndexIn());
 	SmartDashboard::PutData("Index Cycle", new IndexCycle());
@@ -92,3 +92,8 @@ double OI::getAngleSliderValue() {
 	double pre = -1 * virtualStick->GetY();
 	return pre;
 }
+
+double OI::getIndexManualPower() {
+	return auxStick->GetX(GenericHID::kRightHand);
+}
+                             

@@ -10,6 +10,7 @@ public:
 	double getRightDrivePower();
 	double getSpeedSliderValue();
 	double getAngleSliderValue();
+	double getIndexManualPower();
 private:
 	Joystick* virtualStick;
 	JoystickButton* indexBroken;

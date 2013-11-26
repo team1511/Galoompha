@@ -15,6 +15,7 @@
 #include "OI.h"
 
 class Robot: public SimpleRobot {
+public:
 	static OI* oi;
 	// subsystems
 	static Indexer* indexer;

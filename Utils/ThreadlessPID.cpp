@@ -1,10 +1,11 @@
 #include "ThreadlessPID.h"
+#include "Timer.h"
 
 ThreadlessPID::ThreadlessPID(double p, double i, double d, double f) {
 	setConstants(p,i,d,f);
 	integral = 0.0;
 	lerror = 0.0;
-	ltime = GetTime();
+	ltime = Timer::GetPPCTimestamp();
 }
 
 void ThreadlessPID::setConstants(double p, double i, double d, double f) {
@@ -17,11 +18,11 @@ void ThreadlessPID::setConstants(double p, double i, double d, double f) {
 void ThreadlessPID::reset() {
 	integral = 0.0;
 	lerror = 0.0;
-	ltime = GetTime();
+	ltime = Timer::GetPPCTimestamp();
 }
 
 double ThreadlessPID::calc(double target, double measure) {
-	double time_new = GetTime();
+	double time_new = Timer::GetPPCTimestamp();
 	double tdelta = time_new - ltime;
 	ltime = time_new;
 

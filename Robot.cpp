@@ -1,4 +1,5 @@
 #include "Robot.h"
+#include "Commands/Autonomous.h"
 
 Indexer* Robot::indexer = 0;
 ShooterOther* Robot::shooter = 0;
@@ -31,7 +32,7 @@ void Robot::RobotInit() {
 
 	lw = LiveWindow::GetInstance();
 
-	autonomousCommand = new Autonomous();
+	autonomousCommand = new AutonRoutine();
 }
 
 /*

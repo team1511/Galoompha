@@ -1,10 +1,3 @@
-/*
- * ThreadlessPID.h
- *
- *  Created on: Nov 21, 2013
- *      Author: msto
- */
-
 #ifndef THREADLESSPID_H_
 #define THREADLESSPID_H_
 
