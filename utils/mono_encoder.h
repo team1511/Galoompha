@@ -5,9 +5,6 @@
 #include "PIDSource.h"
 #include "LiveWindow/LiveWindowSendable.h"
 
-#define TICKS_PER_REV   250
-
-// Extends counter to be treated as an encoder
 class MonoEncoder: public PIDSource, public LiveWindowSendable {
 public:
 	MonoEncoder(int channel, double max_rps, int ticks_per_revolution);

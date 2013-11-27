@@ -20,6 +20,8 @@ public:
 	static MonoEncoder* shooterEncoder;
 	static CANJaguar* driveRightMotor;
 	static CANJaguar* driveLeftMotor;
+	static MonoEncoder* driveLeftEncoder;
+	static MonoEncoder* driveRightEncoder;
 	static void init();
 };
 #endif

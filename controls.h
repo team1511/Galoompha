@@ -22,6 +22,10 @@ private:
 	JoystickButton* feedButton;
 
 	Joystick* rightDrive;
+
 	Joystick* leftDrive;
+	JoystickButton* driveDebug;
+	JoystickButton* shooterDebug;
+	JoystickButton* climberDebug;
 };
 #endif

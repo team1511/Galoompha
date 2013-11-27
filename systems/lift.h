@@ -4,17 +4,18 @@
 #include "WPILib.h"
 
 class AnglingTool: public Subsystem {
-private:
-	AnalogChannel* anglePot;
-	CANJaguar* liftLeadscrew;
 public:
 	AnglingTool();
 	void InitDefaultCommand();
-	void setSpeed(float speed);
-	
-	/**
-	 * Range -1 to 1
-	 */
-	float getAngle();
+
+	void setSpeed(double speed);
+
+	double getAngle();
+	double getSpeed();
+	double getCurrent();
+private:
+	AnalogChannel* anglePot;
+	CANJaguar* liftLeadscrew;
+	double speed;
 };
 #endif

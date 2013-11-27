@@ -11,6 +11,7 @@
 #include "systems/indexer.h"
 #include "systems/shooter.h"
 #include "systems/lift.h"
+#include "systems/debug.h"
 
 class Robot: public SimpleRobot {
 public:
@@ -21,6 +22,7 @@ public:
 	static AnglingTool* anglingTool;
 	static ShooterWheel* shooterWheel;
 	static Drive* drive;
+	static Debug* debug;
 	// methods
 	virtual void RobotInit();
 	virtual void Disabled();

@@ -10,18 +10,15 @@ Indexer::Indexer() : Subsystem("Indexer") {
 void Indexer::InitDefaultCommand() {
 	SetDefaultCommand(new IndexCycle());
 }
-#define REVERSE_MOTOR (1)
 
 void Indexer::Spin(float speed) {
 	setpoint = speed;
-	indexerWheel->Set(REVERSE_MOTOR * speed);
+	indexerWheel->Set(speed);
 }
-double Indexer::DebugSpeed() {
-	return indexerWheel->GetOutputVoltage();
-}
-double Indexer::DebugCurrent() {
+
+double Indexer::getCurrent() {
 	return indexerWheel->GetOutputCurrent();
 }
-double Indexer::DebugSetPoint() {
+double Indexer::getSpeed() {
 	return setpoint;
 }

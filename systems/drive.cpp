@@ -6,6 +6,10 @@ Drive::Drive() :
 		Subsystem("Drive") {
 	leftMotor = RobotMap::driveLeftMotor;
 	rightMotor = RobotMap::driveRightMotor;
+	leftEncoder = RobotMap::driveLeftEncoder;
+	rightEncoder = RobotMap::driveRightEncoder;
+	power_left = 0.0;
+	power_right = 0.0;
 }
 
 void Drive::InitDefaultCommand() {
@@ -23,8 +27,28 @@ void Drive::SetCoast(Drive::NeutralMode coast) {
 	rightMotor->ConfigNeutralMode(flag);
 }
 
-void Drive::SetSpeeds(float left, float right) {
+void Drive::Set(double left, double right) {
+	power_left = left;
+	power_right = right;
 	leftMotor->Set(left);
 	rightMotor->Set(-right);
 }
 
+double Drive::getLeftCurrent() {
+	leftMotor->GetOutputCurrent();
+}
+double Drive::getLeftSpeed() {
+	return leftEncoder->getSpeed();
+}
+double Drive::getLeftPower() {
+	return power_left;
+}
+double Drive::getRightCurrent() {
+	rightMotor->GetOutputCurrent();
+}
+double Drive::getRightSpeed() {
+	return rightEncoder->getSpeed();
+}
+double Drive::getRightPower() {
+	return power_right;
+}

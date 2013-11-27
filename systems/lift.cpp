@@ -10,6 +10,7 @@
 AnglingTool::AnglingTool() : Subsystem("AnglingTool") {
 	anglePot = RobotMap::anglingToolAnglePot;
 	liftLeadscrew = RobotMap::anglingToolLiftLeadscrew;
+	speed = 0;
 }
     
 void AnglingTool::InitDefaultCommand() {
@@ -18,11 +19,21 @@ void AnglingTool::InitDefaultCommand() {
 
 // TODO: find out if we need to enforce a minimum nonzero speed, to prevent
 // stalling motor at very low input
-void AnglingTool::setSpeed(float speed) {
+void AnglingTool::setSpeed(double s) {
+	speed = s;
 	liftLeadscrew->Set(speed);
 }
-float AnglingTool::getAngle() {
-	float voltage = anglePot->GetVoltage();
-	float target = linearRangeScale(voltage, ANGLEPOT_MIN, ANGLEPOT_MAX, -1.0, 1.0);
+
+double AnglingTool::getAngle() {
+	double voltage = anglePot->GetVoltage();
+	double target = linearRangeScale(voltage, ANGLEPOT_MIN, ANGLEPOT_MAX, -1.0, 1.0);
 	return target;
+}
+
+double AnglingTool::getSpeed() {
+	return speed;
+}
+
+double AnglingTool::getCurrent() {
+	return liftLeadscrew->GetOutputCurrent();
 }

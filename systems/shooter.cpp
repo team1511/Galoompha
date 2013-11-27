@@ -26,7 +26,7 @@ ShooterWheel::ShooterWheel() :
 void ShooterWheel::InitDefaultCommand() {
 	SetDefaultCommand(new ShooterIdle());
 }
-void ShooterWheel::setTargetSpeed(float speed) {
+void ShooterWheel::setTargetSpeed(double speed) {
 	target = speed;
 	double actual = encoder->getSpeed();
 	double output = pid.calc(target, actual);
@@ -40,6 +40,16 @@ bool ShooterWheel::atTargetSpeed() {
 	return (error > -SPEED_CLOSE && error < SPEED_CLOSE);
 }
 
+double ShooterWheel::getSpeed() {
+	return encoder->getSpeed();
+}
+double ShooterWheel::getTarget() {
+	return target;
+}
+double ShooterWheel::getCurrent() {
+	return shooterWheel->GetOutputCurrent();
+}
+
 // Shooter Other
 
 ShooterOther::ShooterOther() :
@@ -47,16 +57,29 @@ ShooterOther::ShooterOther() :
 	loadSensor = RobotMap::shooterLoadSensor;
 	kicker = RobotMap::shooterKicker;
 	blocker = RobotMap::shooterBlocker;
+	block(false);
+	kick(false);
+
 }
 void ShooterOther::InitDefaultCommand() {
 }
+
+
+void ShooterOther::block(bool doit) {
+	blocked = doit;
+	blocker->Set(blocked ? BLOCK_HIGH : BLOCK_LOW);
+}
+void ShooterOther::kick(bool forward) {
+	kicked = forward;
+	kicker->Set(kicked ? KICK_OUT : KICK_BACK);
+}
+
 bool ShooterOther::holdsDisk() {
 	return loadSensor->Get() == 0;
 }
-
-void ShooterOther::block(bool doit) {
-	blocker->Set(doit ? BLOCK_HIGH : BLOCK_LOW);
+bool ShooterOther::isBlockerUp() {
+	return blocked;
 }
-void ShooterOther::kick(bool forward) {
-	kicker->Set(forward ? KICK_OUT : KICK_BACK);
+bool ShooterOther::isKickerOut() {
+	return kicked;
 }

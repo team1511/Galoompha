@@ -13,8 +13,7 @@ public:
 	
 	void Spin(float speed);
 	
-	double DebugSpeed();
-	double DebugCurrent();
-	double DebugSetPoint();
+	double getSpeed();
+	double getCurrent();
 };
 #endif

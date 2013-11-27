@@ -18,22 +18,30 @@ public:
 	ShooterWheel();
 	void InitDefaultCommand();
 
-	void setTargetSpeed(float speed);
+	void setTargetSpeed(double speed);
 	bool atTargetSpeed();
+
+	double getSpeed();
+	double getTarget();
+	double getCurrent();
 };
 
 class ShooterOther: public Subsystem {
-private:
-	DigitalInput* loadSensor;
-	Servo* kicker;
-	Servo* blocker;
 public:
 	ShooterOther();
 	void InitDefaultCommand();
 	
-	bool holdsDisk();
 	void block(bool doit);
 	void kick(bool forward);
-	bool isLoaded();
+
+	bool holdsDisk();
+	bool isBlockerUp();
+	bool isKickerOut();
+private:
+	DigitalInput* loadSensor;
+	Servo* kicker;
+	Servo* blocker;
+	bool kicked;
+	bool blocked;
 };
 #endif

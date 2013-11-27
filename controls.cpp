@@ -8,6 +8,14 @@
 #include "actions/index.h"
 #include "actions/lift.h"
 #include "actions/shoot.h"
+#include "actions/debug.h"
+
+void addSD(Command* c) {
+	SmardDashboard::PutData(c->GetName(), c);
+}
+void addSD(Command* c, const char* name) {
+	SmardDashboard::PutData(name, c);
+}
 
 OI::OI() {
 	// Process operator interface input here.
@@ -29,29 +37,46 @@ OI::OI() {
 	rightDrive = new Joystick(2);
 
 	leftDrive = new Joystick(1);
+	driveDebug = new JoystickButton(leftDrive, 11);
+	driveDebug->WhileHeld(new DebugDrive());
+	shooterDebug = new JoystickButton(leftDrive, 6);
+	shooterDebug->WhileHeld(new DebugShooter());
+	climberDebug = new JoystickButton(leftDrive, 7);
+	climberDebug->WhileHeld(new DebugClimber());
 
 	// SmartDashboard Buttons
-	SmartDashboard::PutData("Autonomous", new AutonRoutine());
-	SmartDashboard::PutData("LiftFeed", new LiftFeed());
-	SmartDashboard::PutData("Index In", new IndexIn());
-	SmartDashboard::PutData("Index Cycle", new IndexCycle());
-	SmartDashboard::PutData("Index Full", new IndexFull());
-	SmartDashboard::PutData("Index Manual", new IndexManual());
-	SmartDashboard::PutData("Lift Feed", new LiftFeed());
-	SmartDashboard::PutData("Lift Static", new LiftStatic());
-	SmartDashboard::PutData("Lift Manual", new LiftManual());
-	SmartDashboard::PutData("Wait to Shoot", new WaittoShoot());
-	SmartDashboard::PutData("Drop Blocker", new DropBlocker());
-	SmartDashboard::PutData("Shoot Disk", new ShootDisk());
-	SmartDashboard::PutData("Move Kicker Forward", new MoveKickerForward());
-	SmartDashboard::PutData("Retract Kicker", new RetractKicker());
-	SmartDashboard::PutData("Raise Blocker", new RaiseBlocker());
-	SmartDashboard::PutData("Shooter Idle", new ShooterIdle());
-	SmartDashboard::PutData("Maintain Speed", new MaintainSpeed());
-	SmartDashboard::PutData("Tank Drive: Coast",
-			new TankDrive(Drive::kCoast));
-	SmartDashboard::PutData("Tank Drive: Brake",
-			new TankDrive(Drive::kBrake));
+	addSD(new AutonRoutine());
+
+	addSD(new LiftFeed());
+	addSD(new LiftStatic());
+	addSD(new LiftManual());
+
+	addSD(new IndexIn());
+	addSD(new IndexCycle());
+	addSD(new IndexManual());
+	addSD(new IndexFull());
+
+	addSD(new ShootDisk());
+	addSD(new RaiseBlocker());
+	addSD(new DropBlocker());
+	addSD(new MoveKickerForward());
+	addSD(new RetractKicker());
+	addSD(new WaittoShoot());
+	addSD(new MaintainSpeed());
+	addSD(new ShooterIdle());
+
+	addSD(new ShooterIdle());
+	addSD(new ShooterIdle());
+
+	addSD(new ShooterIdle());
+	addSD(new ShooterIdle());
+	addSD(new TankDrive(Drive::kBrake));
+	addSD(new TankDrive(Drive::kCoast));
+
+	addSD(new DebugNothing());
+	addSD(new DebugClimber());
+	addSD(new DebugShooter());
+	addSD(new DebugDrive());
 }
 
 double getDrivePower(Joystick* stick) {

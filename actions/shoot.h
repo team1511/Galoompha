@@ -56,7 +56,7 @@ public:
 	virtual bool IsFinished();
 };
 
-class MaintainSpeed: public Command {
+class MaintainSpeed: public CommandStub {
 public:
 	MaintainSpeed();
 	virtual void Execute();

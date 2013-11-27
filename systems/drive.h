@@ -4,9 +4,6 @@
 #include "WPILib.h"
 
 class Drive: public Subsystem {
-private:
-	CANJaguar* leftMotor;
-	CANJaguar* rightMotor;
 public:
 	typedef enum {
 		kCoast, kBrake
@@ -16,7 +13,22 @@ public:
 	void InitDefaultCommand();
 
 	void SetCoast(NeutralMode coast);
-	void SetSpeeds(float left, float right);
+	void Set(double left, double right);
+
+	double getLeftCurrent();
+	double getLeftSpeed();
+	double getLeftPower();
+	double getRightCurrent();
+	double getRightSpeed();
+	double getRightPower();
+private:
+	CANJaguar* leftMotor;
+	CANJaguar* rightMotor;
+	MonoEncoder* leftEncoder;
+	MonoEncoder* rightEncoder;
+
+	double power_left;
+	double power_right;
 };
 
 #endif /* DRIVE_H_ */
