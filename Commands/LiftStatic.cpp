@@ -5,12 +5,10 @@ LiftStatic::LiftStatic() :
 	Requires(Robot::anglingTool);
 	GetPIDController()->Disable();
 }
-// Called just before this Command runs the first time
 void LiftStatic::Initialize() {
 	GetPIDController()->Reset();
 	GetPIDController()->Enable();
 }
-// Called repeatedly when this Command is scheduled to run
 void LiftStatic::Execute() {
 	float slider = Robot::oi->getAngleSliderValue();
 
@@ -22,16 +20,12 @@ void LiftStatic::Execute() {
 		GetPIDController()->Enable();
 	}
 }
-// Make this return true when this Command no longer needs to run execute()
 bool LiftStatic::IsFinished() {
 	return false;
 }
-// Called once after isFinished returns true
 void LiftStatic::End() {
 	GetPIDController()->Disable();
 }
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
 void LiftStatic::Interrupted() {
 	GetPIDController()->Disable();
 }

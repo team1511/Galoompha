@@ -22,10 +22,6 @@ void Drive::SetCoast(Drive::NeutralMode coast) {
 	rightMotor->ConfigNeutralMode(flag);
 }
 
-// deal with current limiting in this, reset on teleop init?
-// create a global reset/initialize call to all Subsystems(/Commands?) ?
-// well, most commands should best be stateless, but initialize should
-// be called on all of them at teleop
 void Drive::SetSpeeds(float left, float right) {
 	leftMotor->Set(left);
 	rightMotor->Set(-right);
