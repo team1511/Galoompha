@@ -44,8 +44,7 @@ void RobotMap::init() {
 	lw->AddActuator("Drive", "Left Motor", driveLeftMotor);
 
 	driveLeftEncoder = new MonoEncoder(1, 1.0, 42);
-	lw->AddActuator("Drive", "Left Encoder", driveLeftEncoder);
-
 	driveRightEncoder = new MonoEncoder(3, 1.0, 42);
-	lw->AddActuator("Drive", "Right Encoder", driveLeftEncoder);
+	lw->AddActuator("Drive", "Left Encoder", driveLeftEncoder);
+	lw->AddActuator("Drive", "Right Encoder", driveRightEncoder);
 }
