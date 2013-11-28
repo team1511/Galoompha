@@ -15,6 +15,29 @@ void addSD(Command* c) {
 	SmartDashboard::PutData(c->GetName(), c);
 }
 
+class ChangeCommand: public OneShotCommand {
+private:
+	bool vv;
+public:
+	ChangeCommand(bool val) :
+			OneShotCommand("Control change") {
+		SetRunWhenDisabled(true);
+		vv = val;
+	}
+	virtual void Call(bool newval) = 0;
+protected:
+	virtual void Execute() {
+		Call(vv);
+	}
+};
+
+// yes, could implement this via Trigger etc.
+class SetEncoder: public ChangeCommand {
+	virtual void Call(bool newval) {
+		Robot::shooterWheel->setEncoderBroken(newval);
+	}
+};
+
 OI::OI() {
 	// Process operator interface input here.
 
@@ -25,6 +48,9 @@ OI::OI() {
 	angleBroken->WhileHeld(new LiftManual());
 	coastMode = new JoystickButton(virtualStick, 5);
 	coastMode->WhileHeld(new TankDrive(Drive::kCoast));
+	wheelEncBroken = new JoystickButton(virtualStick, 2);
+	wheelEncBroken->WhenPressed(new SetEncoder(true));
+	wheelEncBroken->WhenReleased(new SetEncoder(false));
 
 	auxStick = new Joystick(3);
 	shoot = new JoystickButton(auxStick, 1);
@@ -134,4 +160,4 @@ double OI::getClimberPower() {
 bool OI::getClimberLimitsBroken() {
 	return virtualStick->GetRawButton(6);
 }
-                             
+

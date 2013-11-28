@@ -1,5 +1,6 @@
 #include "robot.h"
 #include "actions/autonomous.h"
+#include "utils/resettable_subsystem.h"
 
 Indexer* Robot::indexer = 0;
 ShooterOther* Robot::shooter = 0;
@@ -63,6 +64,7 @@ void Robot::RobotInit() {
 
 void Robot::Disabled() {
 	EnterMode("Disabled");
+	ResettableSubsystem::ResetAll();
 
 	while (IsDisabled()) {
 		// only commands that have RunWhenDisabled set true will do anything.
@@ -76,6 +78,8 @@ void Robot::Disabled() {
 
 void Robot::Autonomous() {
 	EnterMode("Autonomous");
+	ResettableSubsystem::ResetAll();
+
 	if (autonomousCommand != NULL) {
 		autonomousCommand->Start();
 	}
@@ -85,11 +89,16 @@ void Robot::Autonomous() {
 		Wait(kRobotPeriod);
 	}
 
+	// Since 2013 is over, it is not worth it
+	// to create a smooth, optimized transition between Autonomous and Teleop.
+	// If this code is used again, calling DriverStation::GetInstance()->IsFMSAttached()
+	// would be needed.
 	Scheduler::GetInstance()->RemoveAll();
 }
 
 void Robot::OperatorControl() {
 	EnterMode("Teleoperated");
+	ResettableSubsystem::ResetAll();
 
 	while (IsOperatorControl() && IsEnabled()) {
 		Scheduler::GetInstance()->Run();

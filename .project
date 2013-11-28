@@ -19,6 +19,10 @@
 	</natures>
 	<variableList>
 		<variable>
+			<name>STDLIB</name>
+			<value>file:/usr/include/c++/4.7</value>
+		</variable>
+		<variable>
 			<name>WPILIBH</name>
 			<value>file:/home/msto/code/frc/WPILibH</value>
 		</variable>

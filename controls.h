@@ -19,6 +19,7 @@ private:
 	JoystickButton* indexBroken;
 	JoystickButton* angleBroken;
 	JoystickButton* coastMode;
+	JoystickButton* wheelEncBroken;
 
 	Joystick* auxStick;
 	JoystickButton* shoot;

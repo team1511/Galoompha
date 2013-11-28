@@ -5,8 +5,9 @@
 
 #include "utils/mono_encoder.h"
 #include "utils/threadless_pid.h"
+#include "utils/resettable_subsystem.h"
 
-class ShooterWheel: public Subsystem {
+class ShooterWheel: public ResettableSubsystem {
 private:
 	ThreadlessPID pid;
 
@@ -14,9 +15,13 @@ private:
 	MonoEncoder* encoder;
 	
 	double target;
+	bool enc_broken;
 public:
 	ShooterWheel();
 	void InitDefaultCommand();
+	void setEncoderBroken(bool broke);
+
+	virtual void Reset();
 
 	void setTargetSpeed(double speed);
 	bool atTargetSpeed();
