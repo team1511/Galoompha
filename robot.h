@@ -12,6 +12,7 @@
 #include "systems/shooter.h"
 #include "systems/lift.h"
 #include "systems/debug.h"
+#include "systems/climber.h"
 
 class Robot: public SimpleRobot {
 public:
@@ -23,6 +24,9 @@ public:
 	static ShooterWheel* shooterWheel;
 	static Drive* drive;
 	static Debug* debug;
+	static Arms* arms;
+	static Dumper* dumper;
+	static Deployer* deployer;
 	// methods
 	virtual void RobotInit();
 	virtual void Disabled();

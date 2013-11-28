@@ -59,14 +59,14 @@ void LiftStatic::UsePIDOutput(double output) {
 
 LiftTarget::LiftTarget(float angle) :
 		PIDCommand("Lift Target", ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
-				ANGLE_PID_PERIOD) {
+		ANGLE_PID_PERIOD) {
 	Requires(Robot::anglingTool);
 	GetPIDController()->SetSetpoint(angle);
 }
 
 LiftTarget::LiftTarget(const char* name, float angle) :
 		PIDCommand(name, ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
-				ANGLE_PID_PERIOD) {
+		ANGLE_PID_PERIOD) {
 	Requires(Robot::anglingTool);
 	GetPIDController()->SetSetpoint(angle);
 }
@@ -77,7 +77,20 @@ void LiftTarget::UsePIDOutput(double output) {
 	Robot::anglingTool->setSpeed(output);
 }
 
+// Lift To Target
+
+LiftToTarget::LiftToTarget(double angle) :
+		LiftTarget(angle) {
+
+}
+bool LiftToTarget::IsFinished() {
+	double delta = Robot::anglingTool->getAngle()
+			- GetPIDController()->GetSetpoint();
+	return (delta > -0.05 && delta < 0.05);
+}
+
 // Lift Feed
 
-LiftFeed::LiftFeed() : LiftTarget("Lift Feed", ANGLE_FEED) {
+LiftFeed::LiftFeed() :
+		LiftTarget("Lift Feed", ANGLE_FEED) {
 }

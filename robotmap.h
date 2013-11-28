@@ -22,6 +22,11 @@ public:
 	static CANJaguar* driveLeftMotor;
 	static MonoEncoder* driveLeftEncoder;
 	static MonoEncoder* driveRightEncoder;
+	static DigitalInput* climberTopLimit;
+	static DigitalInput* climberBottomLimit;
+	static CANJaguar* climberMotor;
+	static Servo* dumperServo;
+	static Servo* deployerServo;
 	static void init();
 };
 #endif

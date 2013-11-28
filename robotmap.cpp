@@ -11,6 +11,11 @@ CANJaguar* RobotMap::anglingToolLiftLeadscrew = NULL;
 MonoEncoder* RobotMap::shooterEncoder = NULL;
 CANJaguar* RobotMap::driveRightMotor = NULL;
 CANJaguar* RobotMap::driveLeftMotor = NULL;
+DigitalInput* RobotMap::climberTopLimit = NULL;
+DigitalInput* RobotMap::climberBottomLimit = NULL;
+CANJaguar* RobotMap::climberMotor = NULL;
+Servo* RobotMap::dumperServo = NULL;
+Servo* RobotMap::deployerServo = NULL;
 
 void RobotMap::init() {
 	LiveWindow* lw = LiveWindow::GetInstance();
@@ -47,4 +52,18 @@ void RobotMap::init() {
 	driveRightEncoder = new MonoEncoder(3, 1.0, 42);
 	lw->AddActuator("Drive", "Left Encoder", driveLeftEncoder);
 	lw->AddActuator("Drive", "Right Encoder", driveRightEncoder);
+
+	climberTopLimit = new DigitalInput(9);
+	climberBottomLimit = new DigitalInput(10);
+	lw->AddActuator("Arms", "Top Limit", climberTopLimit);
+	lw->AddActuator("Arms", "Bottom Limit", climberBottomLimit);
+
+	climberMotor = new CANJaguar(7);
+	lw->AddActuator("Arms", "Motor", climberMotor);
+
+	dumperServo = new Servo(6);
+	lw->AddActuator("Dumper", "Servo", dumperServo);
+
+	deployerServo = new Servo(3);
+	lw->AddActuator("Deployer", "Servo", deployerServo);
 }

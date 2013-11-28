@@ -26,6 +26,12 @@ public:
 	virtual void UsePIDOutput(double output);
 };
 
+class LiftToTarget: public LiftTarget {
+public:
+	LiftToTarget(double angle);
+	virtual bool IsFinished();
+};
+
 class LiftFeed: public LiftTarget {
 public:
 	LiftFeed();

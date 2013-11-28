@@ -9,12 +9,10 @@
 #include "actions/lift.h"
 #include "actions/shoot.h"
 #include "actions/debug.h"
+#include "actions/climb.h"
 
 void addSD(Command* c) {
-	SmardDashboard::PutData(c->GetName(), c);
-}
-void addSD(Command* c, const char* name) {
-	SmardDashboard::PutData(name, c);
+	SmartDashboard::PutData(c->GetName(), c);
 }
 
 OI::OI() {
@@ -29,10 +27,18 @@ OI::OI() {
 	coastMode->WhileHeld(new TankDrive(Drive::kCoast));
 
 	auxStick = new Joystick(3);
-	shootButton = new JoystickButton(auxStick, 1);
-	shootButton->WhileHeld(new ShootDisk());
-	feedButton = new JoystickButton(auxStick, 2);
-	feedButton->WhileHeld(new LiftFeed());
+	shoot = new JoystickButton(auxStick, 1);
+	shoot->WhileHeld(new ShootDisk());
+	feed = new JoystickButton(auxStick, 2);
+	feed->WhileHeld(new LiftFeed());
+	climbOverride = new JoystickButton(auxStick, 10);
+	climbOverride->WhileHeld(new ArmsManual());
+	dump1 = new JoystickButton(auxStick, 11);
+	dump2 = new JoystickButton(rightDrive, 11);
+	dump1->WhenPressed(new Dump());
+	dump2->WhenPressed(new Dump());
+	deploy = new JoystickButton(auxStick, 10);
+	deploy->WhenPressed(new DeploySequence());
 
 	rightDrive = new Joystick(2);
 
@@ -77,6 +83,18 @@ OI::OI() {
 	addSD(new DebugClimber());
 	addSD(new DebugShooter());
 	addSD(new DebugDrive());
+
+	addSD(new DeploySequence());
+	addSD(new ArmsRest());
+	addSD(new ArmsManual());
+	addSD(new DumperRest());
+	addSD(new DeployerRest());
+	addSD(new Dump());
+	addSD(new Deploy());
+	addSD(new UnlockDumper());
+	addSD(new LockShooter());
+	addSD(new LockLift());
+	addSD(new LockIndexer());
 }
 
 double getDrivePower(Joystick* stick) {
@@ -107,5 +125,13 @@ double OI::getAngleSliderValue() {
 
 double OI::getIndexManualPower() {
 	return auxStick->GetX(GenericHID::kRightHand);
+}
+
+double OI::getClimberPower() {
+	return -1 * auxStick->GetY();
+}
+
+bool OI::getClimberLimitsBroken() {
+	return virtualStick->GetRawButton(6);
 }
                              

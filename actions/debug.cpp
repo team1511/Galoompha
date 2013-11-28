@@ -1,6 +1,10 @@
 #include "actions/debug.h"
 #include "robot.h"
 
+char b2c(bool b) {
+	return b ? "Y" : "N";
+}
+
 DebugNothing::DebugNothing() :
 		CommandStub("Debug Nothing") {
 	Requires(Robot::debug);
@@ -13,11 +17,6 @@ DebugShooter::DebugShooter() :
 		CommandStub("Debug Shooter") {
 	Requires(Robot::debug);
 }
-
-char b2c(bool b) {
-	return b ? "Y" : "N";
-}
-
 void DebugShooter::Execute() {
 	DebugWriter d;
 	ShooterOther* s = Robot::shooter;
@@ -31,8 +30,7 @@ void DebugShooter::Execute() {
 	d.line3("Target %.3f", w->getTarget());
 	d.line4("Angle %.3f", a->getAngle());
 	d.line5("Full %c", b2c(s->holdsDisk()));
-	d.line6("Block %c Kick %c", b2c(s->isBlockerUp()),
-			b2c(s->isKickerOut()));
+	d.line6("Block %c Kick %c", b2c(s->isBlockerUp()), b2c(s->isKickerOut()));
 }
 
 DebugDrive::DebugDrive() :
@@ -54,4 +52,13 @@ DebugClimber::DebugClimber() :
 }
 void DebugClimber::Execute() {
 	DebugWriter d;
+	Arms* a = Robot::arms;
+	Dumper* u = Robot::dumper;
+	Deployer* p = Robot::deployer;
+	d.line1("Top %c Bot %c Spd %1.3f", b2c(a->hitTopLimit()),
+			b2c(a->hitBottomLimit()), a->getGoal());
+	d.line2("DumpSrv %1.3f", u->getPos());
+	d.line3("DeplSrv %1.3f", p->getPos());
+	d.line4("ArmCur %2.2f", a->getCurrent());
+	d.line5("ArmOut %1.3f", a->getOutput());
 }

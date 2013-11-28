@@ -8,6 +8,9 @@ AnglingTool* Robot::anglingTool = 0;
 Drive* Robot::drive = 0;
 OI* Robot::oi = 0;
 Debug* Robot::debug = 0;
+Arms* Robot::arms = 0;
+Dumper* Robot::dumper = 0;
+Deployer* Robot::deployer = 0;
 
 const double kRobotPeriod = 0.05;
 
@@ -24,6 +27,9 @@ void Robot::RobotInit() {
 	shooterWheel = new ShooterWheel();
 	drive = new Drive();
 	debug = new Debug();
+	arms = new Arms();
+	dumper = new Dumper();
+	deployer = new Deployer();
 
 	// This MUST be here. If the OI creates Commands (which it very likely
 	// will), constructing it during the construction of CommandBase (from

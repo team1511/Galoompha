@@ -1,8 +1,10 @@
 #include "utils/command_stub.h"
 
-CommandStub::CommandStub(const char* name) : Command(name) {
+CommandStub::CommandStub(const char* name) :
+		Command(name) {
 }
-CommandStub::CommandStub(const char* name, double timeout) : Command(name, timeout) {
+CommandStub::CommandStub(const char* name, double timeout) :
+		Command(name, timeout) {
 }
 
 /**
@@ -27,7 +29,15 @@ bool CommandStub::IsFinished() {
 void CommandStub::End() {
 }
 /**
- * Default: no action
+ * Default: calls CommandStub::end()
  */
 void CommandStub::Interrupted() {
+	End();
+}
+
+OneShotCommand::OneShotCommand(const char* f) :
+		CommandStub(f) {
+}
+virtual bool OneShotCommand::IsFinished() {
+	return true;
 }

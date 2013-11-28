@@ -15,4 +15,10 @@ protected:
 	virtual void Interrupted();
 };
 
+class OneShotCommand : public CommandStub {
+public:
+	OneShotCommand(const char* f);
+	virtual bool IsFinished();
+};
+
 #endif
