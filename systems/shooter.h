@@ -17,6 +17,8 @@ private:
 	double target;
 	bool enc_broken;
 public:
+	typedef enum {kCustom, kControls} SpeedSource;
+
 	ShooterWheel();
 	void InitDefaultCommand();
 	void setEncoderBroken(bool broke);

@@ -1,5 +1,5 @@
-#ifndef UTILS_RESETTABLE_SUBSYSTEM
-#define UTILS_RESETTABLE_SUBSYSTEM
+#ifndef UTILS_RESETTABLE_SUBSYSTEM_H_
+#define UTILS_RESETTABLE_SUBSYSTEM_H_
 
 #include "Commands/Subsystem.h"
 #include <set>
@@ -14,4 +14,4 @@ private:
 	static std::set<ResettableSubsystem*> systems;
 };
 
-#endif // UTILS_RESETTABLE_SUBSYSTEM
+#endif // UTILS_RESETTABLE_SUBSYSTEM_H_

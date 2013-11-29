@@ -31,22 +31,20 @@ public:
 
 // permanent locks
 
-class LockShooter: public CommandStub {
+class LockShooterBlob: public CommandStub {
 public:
-	LockShooter();
+	LockShooterBlob();
 	virtual void Execute();
 };
 
-class LockLift: public CommandStub {
-public:
-	LockLift();
-	virtual void Execute();
-};
+// Auxiliary
 
-class LockIndexer: public CommandStub {
+class DoIfDeployed: public OneShotCommand {
 public:
-	LockIndexer();
-	virtual void Execute();
+	DoIfDeployed(Command* c);
+	virtual void Initialize();
+private:
+	Command* todo;
 };
 
 #endif

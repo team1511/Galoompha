@@ -2,10 +2,10 @@
 #include "actions/climb.h"
 #include "robotmap.h"
 
-#define DEPLOY_OUT 0.1
-#define DEPLOY_LOCK 0.7
-#define DUMP_OUT 0.75
-#define DUMP_LOCK 0.34
+const double DEPLOY_OUT = 0.1;
+const double DEPLOY_LOCK = 0.7;
+const double DUMP_OUT = 0.75;
+const double DUMP_LOCK = 0.34;
 
 // Arms
 

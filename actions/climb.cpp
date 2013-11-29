@@ -1,24 +1,21 @@
 #include "actions/climb.h"
 #include "actions/lift.h"
 
-#define CLIMB_ANGLE 0.95
+const double CLIMB_ANGLE = 0.95;
 
 DeploySequence::DeploySequence() :
 		CommandGroup("Deploy Sequence") {
-	AddParallel(new LockShooter());
+	AddParallel(new LockShooterBlob());
 
 	AddSequential(new LiftToTarget(CLIMB_ANGLE));
 	AddSequential(new Deploy());
 
-	AddParallel(new LockLift());
-	AddParallel(new LockIndexer());
-	// never terminates: mode lasts indefinitely, as it should
+	AddParallel(new LiftTarget(CLIMB_ANGLE));
 	AddSequential(new ArmsManual());
 
+	// this command never terminates naturally,
+	// but binds up the shooter/lift to prevent accidents
 	SetInterruptible(false);
-	// we could use Requires on the three subsystems we want
-	// to disable, but the LockX commands also ensure they
-	// stop moving.
 }
 
 ArmsManual::ArmsManual() :
@@ -49,29 +46,26 @@ void Deploy::Execute() {
 
 // Lock all shooter systems
 
-LockShooter::LockShooter() :
-		CommandStub("Lock Shooter") {
+LockShooterBlob::LockShooterBlob() :
+		CommandStub("Lock Shooter/Indexer") {
 	Requires(Robot::shooter);
 	Requires(Robot::shooterWheel);
-	SetInterruptible(false);
-}
-void LockShooter::Execute() {
-	Robot::shooterWheel->setTargetSpeed(0.0);
-}
-LockLift::LockLift() :
-		CommandStub("Lock Shooter") {
-	Requires(Robot::anglingTool);
-	SetInterruptible(false);
-}
-void LockLift::Execute() {
-	Robot::anglingTool->setSpeed(0.0);
-}
-LockIndexer::LockIndexer() :
-		CommandStub("Lock Shooter") {
 	Requires(Robot::indexer);
 	SetInterruptible(false);
 }
-void LockIndexer::Execute() {
+void LockShooterBlob::Execute() {
+	Robot::shooterWheel->setTargetSpeed(0.0);
 	Robot::indexer->Spin(0.0);
 }
 
+// Do After Deploy
+
+DoIfDeployed::DoIfDeployed(Command* c) :
+		OneShotCommand("Run Mystery Command After Deploy") {
+	todo = c;
+}
+void DoIfDeployed::Initialize() {
+	if (Robot::deployer->hasDeployed()) {
+		todo->Start();
+	}
+}

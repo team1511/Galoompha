@@ -3,15 +3,19 @@
 
 #include "Commands/CommandGroup.h"
 #include "utils/command_stub.h"
+#include "systems/shooter.h"
 
 class ShootDisk: public CommandGroup {
 public:
-	ShootDisk();
+	ShootDisk(ShooterWheel::SpeedSource v = ShooterWheel::kControls,
+			double speed = 0.0);
 };
 
 class MoveKicker: public OneShotCommand {
 public:
-	typedef enum {kKick, kRetract} Direction;
+	typedef enum {
+		kKick, kRetract
+	} Direction;
 	MoveKicker(Direction d);
 	virtual void Execute();
 private:
@@ -20,7 +24,9 @@ private:
 
 class MoveBlocker: public OneShotCommand {
 public:
-	typedef enum {kBlock, kClear} Position;
+	typedef enum {
+		kBlock, kClear
+	} Position;
 	MoveBlocker(Position forward);
 	virtual void Execute();
 private:
@@ -36,8 +42,12 @@ public:
 };
 
 class MaintainSpeed: public CommandStub {
+private:
+	ShooterWheel::SpeedSource mode;
+	double target;
 public:
-	MaintainSpeed();
+	MaintainSpeed(ShooterWheel::SpeedSource v = ShooterWheel::kControls,
+			double speed = 0.0);
 	virtual void Execute();
 };
 

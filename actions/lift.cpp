@@ -2,12 +2,14 @@
 #include "robot.h"
 #include "PIDController.h"
 
-#define ANGLE_FEED 0.44f
+const double ANGLE_FEED = 0.44;
 
-#define ANGLE_PID_P 2.0
-#define ANGLE_PID_I 0.0
-#define ANGLE_PID_D 0.0
-#define ANGLE_PID_PERIOD 0.020
+const double ANGLE_PID_P = 2.0;
+const double ANGLE_PID_I = 0.0;
+const double ANGLE_PID_D = 0.0;
+const double ANGLE_PID_PERIOD = 0.020;
+
+const double ANGLE_CLOSE = 0.05;
 
 // Lift Manual
 
@@ -15,7 +17,6 @@ LiftManual::LiftManual() :
 		CommandStub("Lift Manual") {
 	Requires(Robot::anglingTool);
 }
-
 void LiftManual::Execute() {
 	double slider = Robot::oi->getAngleSliderValue();
 
@@ -72,7 +73,7 @@ LiftToTarget::LiftToTarget(double angle) :
 bool LiftToTarget::IsFinished() {
 	double delta = Robot::anglingTool->getAngle()
 			- GetPIDController()->GetSetpoint();
-	return (delta > -0.05 && delta < 0.05);
+	return (delta > -ANGLE_CLOSE && delta < ANGLE_CLOSE);
 }
 
 // Lift Feed

@@ -35,7 +35,7 @@ void Drive::Set(double left, double right) {
 }
 
 double Drive::getLeftCurrent() {
-	leftMotor->GetOutputCurrent();
+	return leftMotor->GetOutputCurrent();
 }
 double Drive::getLeftSpeed() {
 	return leftEncoder->getSpeed();
@@ -44,7 +44,7 @@ double Drive::getLeftPower() {
 	return power_left;
 }
 double Drive::getRightCurrent() {
-	rightMotor->GetOutputCurrent();
+	return rightMotor->GetOutputCurrent();
 }
 double Drive::getRightSpeed() {
 	return rightEncoder->getSpeed();

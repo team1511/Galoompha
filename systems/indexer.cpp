@@ -11,7 +11,7 @@ void Indexer::InitDefaultCommand() {
 	SetDefaultCommand(new IndexCycle());
 }
 
-void Indexer::Spin(float speed) {
+void Indexer::Spin(double speed) {
 	setpoint = speed;
 	indexerWheel->Set(speed);
 }

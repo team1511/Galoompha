@@ -11,7 +11,7 @@ public:
 	Indexer();
 	void InitDefaultCommand();
 	
-	void Spin(float speed);
+	void Spin(double speed);
 	
 	double getSpeed();
 	double getCurrent();

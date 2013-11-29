@@ -3,15 +3,15 @@
 #include "robot.h"
 #include "utils/unbind_subsystem.h"
 
-#define DROP_TIME 0.5
-#define GUARD_LOWER_TIME 0.3
-#define PUSHER_OUT_TIME 0.5
-#define PUSHER_BACK_TIME 0.3
-#define SPEED_TIMEOUT 3.0
+const double DROP_TIME = 0.5;
+const double GUARD_LOWER_TIME = 0.3;
+const double PUSHER_OUT_TIME = 0.5;
+const double PUSHER_BACK_TIME = 0.3;
+const double SPEED_TIMEOUT = 3.0;
 
-ShootDisk::ShootDisk() :
+ShootDisk::ShootDisk(ShooterWheel::SpeedSource v, double speed) :
 		CommandGroup("Shoot Disk") {
-	AddParallel(new MaintainSpeed());
+	AddParallel(new MaintainSpeed(v, speed));
 	// main block
 	AddSequential(new WaitUntilReadyToShoot(), SPEED_TIMEOUT);
 	AddSequential(new WaitCommand(DROP_TIME));
@@ -62,17 +62,26 @@ void ShooterIdle::Execute() {
 
 // Maintain Speed
 
-MaintainSpeed::MaintainSpeed() :
+MaintainSpeed::MaintainSpeed(ShooterWheel::SpeedSource v, double speed) :
 		CommandStub("Maintain Speed") {
 	Requires(Robot::shooterWheel);
+	mode = v;
+	target = speed;
 }
 void MaintainSpeed::Execute() {
-	Robot::shooterWheel->setTargetSpeed(Robot::oi->getSpeedSliderValue());
+	double speed;
+	if (mode == ShooterWheel::kControls) {
+		speed = Robot::oi->getSpeedSliderValue();
+	} else {
+		speed = target;
+	}
+	Robot::shooterWheel->setTargetSpeed(speed);
 }
 
 // Wait to Shoot
 
-WaittoShoot::WaittoShoot() : CommandGroup("Wait To Shoot") {
+WaittoShoot::WaittoShoot() :
+		CommandGroup("Wait To Shoot") {
 	AddParallel(new MaintainSpeed());
 	AddSequential(new WaitUntilReadyToShoot());
 	AddSequential(new UnbindSubsystem(Robot::shooterWheel));

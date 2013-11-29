@@ -4,15 +4,16 @@
 #include "robot.h"
 
 //absolute limits for the pot on the angle controller
-#define ANGLEPOT_MAX 1.2f
-#define ANGLEPOT_MIN 0.45f
+const double ANGLEPOT_MAX = 1.2;
+const double ANGLEPOT_MIN = 0.45;
 
-AnglingTool::AnglingTool() : Subsystem("AnglingTool") {
+AnglingTool::AnglingTool() :
+		Subsystem("AnglingTool") {
 	anglePot = RobotMap::anglingToolAnglePot;
 	liftLeadscrew = RobotMap::anglingToolLiftLeadscrew;
 	speed = 0;
 }
-    
+
 void AnglingTool::InitDefaultCommand() {
 	SetDefaultCommand(new LiftStatic());
 }
@@ -26,7 +27,8 @@ void AnglingTool::setSpeed(double s) {
 
 double AnglingTool::getAngle() {
 	double voltage = anglePot->GetVoltage();
-	double target = linearRangeScale(voltage, ANGLEPOT_MIN, ANGLEPOT_MAX, -1.0, 1.0);
+	double target = linearRangeScale(voltage, ANGLEPOT_MIN, ANGLEPOT_MAX, -1.0,
+			1.0);
 	return target;
 }
 

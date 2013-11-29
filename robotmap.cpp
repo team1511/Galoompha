@@ -2,19 +2,28 @@
 #include "LiveWindow/LiveWindow.h"
 
 CANJaguar* RobotMap::indexerIndexerWheel = NULL;
+
+CANJaguar* RobotMap::shooterWheelMotor = NULL;
+MonoEncoder* RobotMap::shooterWheelEncoder = NULL;
+
 DigitalInput* RobotMap::shooterLoadSensor = NULL;
-CANJaguar* RobotMap::shooterShooterWheel = NULL;
 Servo* RobotMap::shooterKicker = NULL;
 Servo* RobotMap::shooterBlocker = NULL;
+
 AnalogChannel* RobotMap::anglingToolAnglePot = NULL;
 CANJaguar* RobotMap::anglingToolLiftLeadscrew = NULL;
-MonoEncoder* RobotMap::shooterEncoder = NULL;
+
 CANJaguar* RobotMap::driveRightMotor = NULL;
 CANJaguar* RobotMap::driveLeftMotor = NULL;
+MonoEncoder* RobotMap::driveLeftEncoder = NULL;
+MonoEncoder* RobotMap::driveRightEncoder = NULL;
+
 DigitalInput* RobotMap::climberTopLimit = NULL;
 DigitalInput* RobotMap::climberBottomLimit = NULL;
 CANJaguar* RobotMap::climberMotor = NULL;
+
 Servo* RobotMap::dumperServo = NULL;
+
 Servo* RobotMap::deployerServo = NULL;
 
 void RobotMap::init() {
@@ -25,8 +34,8 @@ void RobotMap::init() {
 	shooterLoadSensor = new DigitalInput(1, 14);
 	lw->AddSensor("Shooter Other", "Load Sensor", shooterLoadSensor);
 
-	shooterShooterWheel = new CANJaguar(8);
-	lw->AddActuator("Shooter Wheel", "Wheel", shooterShooterWheel);
+	shooterWheelMotor = new CANJaguar(8);
+	lw->AddActuator("Shooter Wheel", "Wheel", shooterWheelMotor);
 
 	shooterKicker = new Servo(1, 5);
 	lw->AddActuator("Shooter Other", "Kicker", shooterKicker);
@@ -40,8 +49,8 @@ void RobotMap::init() {
 	anglingToolLiftLeadscrew = new CANJaguar(9);
 	lw->AddActuator("Angling Tool", "Lift Leadscrew", indexerIndexerWheel);
 
-	shooterEncoder = new MonoEncoder(5, 82, 250);
-	lw->AddSensor("Shooter Wheel", "Encoder", shooterEncoder);
+	shooterWheelEncoder = new MonoEncoder(5, 82, 250);
+	lw->AddSensor("Shooter Wheel", "Encoder", shooterWheelEncoder);
 
 	driveRightMotor = new CANJaguar(4);
 	driveLeftMotor = new CANJaguar(2);

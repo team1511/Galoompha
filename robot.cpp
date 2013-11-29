@@ -42,7 +42,7 @@ void Robot::RobotInit() {
 
 	lw = LiveWindow::GetInstance();
 
-	autonomousCommand = new AutonRoutine();
+	autonomousCommand = new AutonSwitcher();
 }
 
 //The Pseudocode for each section is:

@@ -38,23 +38,6 @@ class SetEncoder: public ChangeCommand {
 	}
 };
 
-// this is better than a trigger; its state does not persist between modes,
-// as it is wiped through Scheduler::removeAll()
-class DoAfterDeploy: public OneShotCommand {
-public:
-	DoAfterDeploy(Command* c) :
-			OneShotCommand("Run Mystery Command After Deploy") {
-		todo = c;
-	}
-	virtual void Initialize() {
-		if (Robot::deployer->hasDeployed()) {
-			todo->Start();
-		}
-	}
-private:
-	Command* todo;
-};
-
 OI::OI() {
 	// Process operator interface input here.
 
@@ -79,8 +62,8 @@ OI::OI() {
 
 	dump1 = new JoystickButton(auxStick, 11);
 	dump2 = new JoystickButton(rightDrive, 11);
-	dump1->WhenPressed(new DoAfterDeploy(new Dump()));
-	dump2->WhenPressed(new DoAfterDeploy(new Dump()));
+	dump1->WhenPressed(new DoIfDeployed(new Dump()));
+	dump2->WhenPressed(new DoIfDeployed(new Dump()));
 	deploy = new JoystickButton(auxStick, 10);
 	deploy->WhenPressed(new DeploySequence());
 
@@ -95,7 +78,7 @@ OI::OI() {
 	climberDebug->WhileHeld(new DebugClimber());
 
 	// SmartDashboard Buttons
-	addSD(new AutonRoutine());
+	addSD(new AutonSwitcher());
 
 	addSD(new LiftFeed());
 	addSD(new LiftStatic());
@@ -126,11 +109,9 @@ OI::OI() {
 	addSD(new DeploySequence());
 	addSD(new ArmsManual());
 	addSD(new Dump());
-	addSD(new DoAfterDeploy(new Dump()));
+	addSD(new DoIfDeployed(new Dump()));
 	addSD(new Deploy());
-	addSD(new LockShooter());
-	addSD(new LockLift());
-	addSD(new LockIndexer());
+	addSD(new LockShooterBlob());
 }
 
 double getDrivePower(Joystick* stick) {
@@ -149,9 +130,8 @@ double OI::getRightDrivePower() {
 }
 
 double OI::getSpeedSliderValue() {
-	float slider = virtualStick->GetX();
-	float speed = linearRangeScale(slider, -1.0f, 1.0f, 0.3f, 1.0f);
-	return speed;
+	double slider = virtualStick->GetX();
+	return linearRangeScale(slider, -1.0f, 1.0f, 0.3f, 1.0f);
 }
 
 double OI::getAngleSliderValue() {

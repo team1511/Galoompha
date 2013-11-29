@@ -3,23 +3,23 @@
 #include "actions/shoot.h"
 #include "utils/calc.h"
 
-#define SPEED_CLOSE 0.05
+const double SPEED_CLOSE = 0.05;
 
-#define BLOCK_HIGH 0.5
-#define BLOCK_LOW 1.0
+const double BLOCK_HIGH = 0.5;
+const double BLOCK_LOW = 1.0;
 
-#define KICK_OUT 0.7
-#define KICK_BACK 0.48
+const double KICK_OUT = 0.7;
+const double KICK_BACK = 0.48;
 
 // Shooter Wheel
 
 ShooterWheel::ShooterWheel() :
 		ResettableSubsystem("Shooter Wheel"), pid(8.0, 0.0, 0.0, 0.7) {
-	shooterWheel = RobotMap::shooterShooterWheel;
+	shooterWheel = RobotMap::shooterWheelMotor;
 	shooterWheel->ConfigNeutralMode(CANJaguar::kNeutralMode_Coast);
 	shooterWheel->SetSafetyEnabled(false);
 
-	encoder = RobotMap::shooterEncoder;
+	encoder = RobotMap::shooterWheelEncoder;
 
 	target = 0.0;
 	enc_broken = false;
