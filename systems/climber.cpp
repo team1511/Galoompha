@@ -20,10 +20,6 @@ Arms::Arms() :
 	target = 0.0;
 	output = 0.0;
 }
-void Arms::InitDefaultCommand() {
-	SetDefaultCommand(new ArmsRest());
-}
-
 double Arms::toSafePower(double goal) {
 	bool at_top = hitTopLimit();
 
@@ -44,7 +40,6 @@ double Arms::toSafePower(double goal) {
 
 	return goal;
 }
-
 void Arms::setPower(double power) {
 	target = power;
 	bool now_broken = Robot::oi->getClimberLimitsBroken();
@@ -68,7 +63,7 @@ bool Arms::hitTopLimit() {
 	return !top->Get();
 }
 bool Arms::hitBottomLimit() {
-	return !top->Get();
+	return !bottom->Get();
 }
 double Arms::getGoal() {
 	return target;
@@ -83,22 +78,15 @@ double Arms::getOutput() {
 // Dumper
 
 Dumper::Dumper() :
-		Subsystem("Dumper") {
+		ResettableSubsystem("Dumper") {
 	servo = RobotMap::dumperServo;
-	locked = true;
 	servo->Set(DUMP_LOCK);
 }
-void Dumper::InitDefaultCommand() {
-	SetDefaultCommand(new DumperRest());
+void Dumper::Reset() {
+	servo->Set(DUMP_LOCK);
 }
 void Dumper::dump(bool dump) {
 	servo->Set(dump ? DUMP_OUT : DUMP_LOCK);
-}
-void Dumper::lock(bool lock) {
-	locked = lock;
-}
-bool Dumper::isLocked() {
-	return locked;
 }
 double Dumper::getPos() {
 	return servo->Get();
@@ -107,16 +95,24 @@ double Dumper::getPos() {
 // Deployer
 
 Deployer::Deployer() :
-		Subsystem("Deployer") {
+		ResettableSubsystem("Deployer") {
 	servo = RobotMap::deployerServo;
 	servo->Set(DEPLOY_LOCK);
+	deployed = false;
 }
-void Deployer::InitDefaultCommand() {
-	SetDefaultCommand(new DeployerRest());
+
+void Deployer::Reset() {
+	servo->Set(DEPLOY_LOCK);
+	deployed = false;
 }
 void Deployer::deploy(bool deploy) {
 	servo->Set(deploy ? DEPLOY_OUT : DEPLOY_LOCK);
+	deployed = true;
 }
 double Deployer::getPos() {
 	return servo->Get();
 }
+bool Deployer::hasDeployed() {
+	return deployed;
+}
+

@@ -10,18 +10,17 @@ DeploySequence::DeploySequence() :
 	AddSequential(new LiftToTarget(CLIMB_ANGLE));
 	AddSequential(new Deploy());
 
-	AddParallel(new UnlockDumper());
-	AddParallel(new LockLift())
+	AddParallel(new LockLift());
 	AddParallel(new LockIndexer());
+	// never terminates: mode lasts indefinitely, as it should
 	AddSequential(new ArmsManual());
 
 	SetInterruptible(false);
+	// we could use Requires on the three subsystems we want
+	// to disable, but the LockX commands also ensure they
+	// stop moving.
 }
 
-ArmsRest::ArmsRest() :
-		CommandStub("Arms Rest") {
-	Requires(Robot::arms);
-}
 ArmsManual::ArmsManual() :
 		CommandStub("Arms Manual") {
 	Requires(Robot::arms);
@@ -30,69 +29,22 @@ void ArmsManual::Execute() {
 	Robot::arms->setPower(Robot::oi->getClimberPower());
 }
 
-
-// Dumper/Deployer Rests: default states
-
-DumperRest::DumperRest() :
-		CommandStub("Dumper Rest") {
-	Requires(Robot::dumper);
-}
-void DumperRest::Initialize() {
-	Robot::dumper->lock(true);
-}
-void DumperRest::End() {
-	Robot::dumper->Dumper(false);
-}
-
-DeployerRest::DeployerRest() :
-		CommandStub("Deployer Rest") {
-	Requires(Robot::deployer);
-}
-void DeployerRest::End() {
-	Robot::deployer->deploy(false);
-}
-
-// Actions. When forced out by scheduler, they
-// reset to a safe state
+// Actions.
 
 Dump::Dump() :
-		CommandStub("Dump") {
+		OneShotCommand("Dump") {
 	Requires(Robot::dumper);
 }
-void Dump::Initialize() {
-	// ooh, what happens if we cancel ourselves?
-}
 void Dump::Execute() {
-	if (!Robot::dumper->isLocked()) {
-		Robot::dumper->dump(true);
-	}
-}
-bool Dump::IsFinished() {
-	return Robot::dumper->isLocked();
-}
-void Dump::End() {
-	Robot::dumper->dump(false);
+	Robot::dumper->dump(true);
 }
 
 Deploy::Deploy() :
-		CommandStub("Deploy") {
+		OneShotCommand("Deploy") {
 	Requires(Robot::deployer);
 }
 void Deploy::Execute() {
 	Robot::deployer->deploy(true);
-}
-void Deploy::End() {
-	Robot::deployer->deploy(false);
-}
-
-// manage dumper state
-
-UnlockDumper::UnlockDumper() :
-		OneShotCommand("Deploy") {
-	Requires(Robot::dumper);
-}
-void UnlockDumper::Execute() {
-	Robot::dumper->lock(false);
 }
 
 // Lock all shooter systems

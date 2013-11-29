@@ -38,6 +38,23 @@ class SetEncoder: public ChangeCommand {
 	}
 };
 
+// this is better than a trigger; its state does not persist between modes,
+// as it is wiped through Scheduler::removeAll()
+class DoAfterDeploy: public OneShotCommand {
+public:
+	DoAfterDeploy(Command* c) :
+			OneShotCommand("Run Mystery Command After Deploy") {
+		todo = c;
+	}
+	virtual void Initialize() {
+		if (Robot::deployer->hasDeployed()) {
+			todo->Start();
+		}
+	}
+private:
+	Command* todo;
+};
+
 OI::OI() {
 	// Process operator interface input here.
 
@@ -59,10 +76,11 @@ OI::OI() {
 	feed->WhileHeld(new LiftFeed());
 	climbOverride = new JoystickButton(auxStick, 10);
 	climbOverride->WhileHeld(new ArmsManual());
+
 	dump1 = new JoystickButton(auxStick, 11);
 	dump2 = new JoystickButton(rightDrive, 11);
-	dump1->WhenPressed(new Dump());
-	dump2->WhenPressed(new Dump());
+	dump1->WhenPressed(new DoAfterDeploy(new Dump()));
+	dump2->WhenPressed(new DoAfterDeploy(new Dump()));
 	deploy = new JoystickButton(auxStick, 10);
 	deploy->WhenPressed(new DeploySequence());
 
@@ -88,20 +106,6 @@ OI::OI() {
 	addSD(new IndexManual());
 	addSD(new IndexFull());
 
-	addSD(new ShootDisk());
-	addSD(new RaiseBlocker());
-	addSD(new DropBlocker());
-	addSD(new MoveKickerForward());
-	addSD(new RetractKicker());
-	addSD(new WaittoShoot());
-	addSD(new MaintainSpeed());
-	addSD(new ShooterIdle());
-
-	addSD(new ShooterIdle());
-	addSD(new ShooterIdle());
-
-	addSD(new ShooterIdle());
-	addSD(new ShooterIdle());
 	addSD(new TankDrive(Drive::kBrake));
 	addSD(new TankDrive(Drive::kCoast));
 
@@ -110,14 +114,20 @@ OI::OI() {
 	addSD(new DebugShooter());
 	addSD(new DebugDrive());
 
+	addSD(new ShootDisk());
+	addSD(new MoveBlocker(MoveBlocker::kClear));
+	addSD(new MoveBlocker(MoveBlocker::kBlock));
+	addSD(new MoveKicker(MoveKicker::kKick));
+	addSD(new MoveKicker(MoveKicker::kRetract));
+	addSD(new WaittoShoot());
+	addSD(new MaintainSpeed());
+	addSD(new ShooterIdle());
+
 	addSD(new DeploySequence());
-	addSD(new ArmsRest());
 	addSD(new ArmsManual());
-	addSD(new DumperRest());
-	addSD(new DeployerRest());
 	addSD(new Dump());
+	addSD(new DoAfterDeploy(new Dump()));
 	addSD(new Deploy());
-	addSD(new UnlockDumper());
 	addSD(new LockShooter());
 	addSD(new LockLift());
 	addSD(new LockIndexer());
@@ -159,5 +169,9 @@ double OI::getClimberPower() {
 
 bool OI::getClimberLimitsBroken() {
 	return virtualStick->GetRawButton(6);
+}
+
+bool OI::getContinuousShooting() {
+	return virtualStick->GetRawButton(8);
 }
 

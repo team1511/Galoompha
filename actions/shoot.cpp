@@ -1,9 +1,8 @@
 #include "actions/shoot.h"
 #include "utils/calc.h"
 #include "robot.h"
+#include "utils/unbind_subsystem.h"
 
-// should these constants really be pulled out?
-// this style is rather legible...
 #define DROP_TIME 0.5
 #define GUARD_LOWER_TIME 0.3
 #define PUSHER_OUT_TIME 0.5
@@ -12,72 +11,39 @@
 
 ShootDisk::ShootDisk() :
 		CommandGroup("Shoot Disk") {
-	AddSequential(new PrintCommand("Waiting!"));
-	AddSequential(new WaittoShoot(), SPEED_TIMEOUT);
-
 	AddParallel(new MaintainSpeed());
-	AddSequential(new PrintCommand("Go!!"));
+	// main block
+	AddSequential(new WaitUntilReadyToShoot(), SPEED_TIMEOUT);
 	AddSequential(new WaitCommand(DROP_TIME));
-
-	AddSequential(new DropBlocker());
+	AddSequential(new MoveBlocker(MoveBlocker::kClear));
 	AddSequential(new WaitCommand(GUARD_LOWER_TIME));
-	AddSequential(new MoveKickerForward());
+	AddSequential(new MoveKicker(MoveKicker::kKick));
 	AddSequential(new WaitCommand(PUSHER_OUT_TIME));
-	AddSequential(new RetractKicker());
+	AddSequential(new MoveKicker(MoveKicker::kRetract));
 	AddSequential(new WaitCommand(PUSHER_BACK_TIME));
-	AddSequential(new RaiseBlocker());
-	AddSequential(new PrintCommand("Done!!!"));
+	AddSequential(new MoveBlocker(MoveBlocker::kBlock));
+	// terminates the MaintainSpeed
+	AddSequential(new UnbindSubsystem(Robot::shooterWheel));
 }
 
-// Move Kicker Forward
+// Move Kicker
 
-MoveKickerForward::MoveKickerForward() :
-		CommandStub("Move Kicker Forward") {
-	Requires(Robot::shooter);
+MoveKicker::MoveKicker(Direction d) :
+		OneShotCommand((d == kKick) ? "Kicker: Kick" : "Kicker: Retract") {
+	dir = d;
 }
-void MoveKickerForward::Execute() {
-	Robot::shooter->kick(true);
-}
-bool MoveKickerForward::IsFinished() {
-	return true;
+void MoveKicker::Execute() {
+	Robot::shooter->kick((dir == kKick));
 }
 
-// Retract Kicker
+// Move Blocker
 
-RetractKicker::RetractKicker() :
-		CommandStub("Retract Kicker") {
-	Requires(Robot::shooter);
+MoveBlocker::MoveBlocker(Position p) :
+		OneShotCommand((pos == kBlock) ? "Blocker: Block" : "Blocker: Clear") {
+	pos = p;
 }
-void RetractKicker::Execute() {
-	Robot::shooter->kick(false);
-}
-bool RetractKicker::IsFinished() {
-	return true;
-}
-
-// Raise Blocker
-
-RaiseBlocker::RaiseBlocker() :
-		CommandStub("Raise Blocker") {
-	Requires(Robot::shooter);
-}
-void RaiseBlocker::Execute() {
-	Robot::shooter->block(true);
-}
-bool RaiseBlocker::IsFinished() {
-	return true;
-}
-
-// Drop Blocker
-
-DropBlocker::DropBlocker() {
-	Requires(Robot::shooter);
-}
-void DropBlocker::Execute() {
-	Robot::shooter->block(false);
-}
-bool DropBlocker::IsFinished() {
-	return true;
+void MoveBlocker::Execute() {
+	Robot::shooter->block((pos == kBlock));
 }
 
 // Shooter Idle
@@ -87,20 +53,11 @@ ShooterIdle::ShooterIdle() :
 	Requires(Robot::shooterWheel);
 }
 void ShooterIdle::Execute() {
-	Robot::shooterWheel->setTargetSpeed(0.0);
-}
-
-// Wait To Shoot
-
-WaittoShoot::WaittoShoot() :
-		CommandStub("Wait To Shoot") {
-	Requires(Robot::shooterWheel);
-}
-void WaittoShoot::Execute() {
-	Robot::shooterWheel->setTargetSpeed(Robot::oi->getSpeedSliderValue());
-}
-bool WaittoShoot::IsFinished() {
-	return Robot::shooterWheel->atTargetSpeed() && Robot::shooter->holdsDisk();
+	if (Robot::oi->getContinuousShooting()) {
+		Robot::shooterWheel->setTargetSpeed(Robot::oi->getSpeedSliderValue());
+	} else {
+		Robot::shooterWheel->setTargetSpeed(0.0);
+	}
 }
 
 // Maintain Speed
@@ -112,3 +69,22 @@ MaintainSpeed::MaintainSpeed() :
 void MaintainSpeed::Execute() {
 	Robot::shooterWheel->setTargetSpeed(Robot::oi->getSpeedSliderValue());
 }
+
+// Wait to Shoot
+
+WaittoShoot::WaittoShoot() : CommandGroup("Wait To Shoot") {
+	AddParallel(new MaintainSpeed());
+	AddSequential(new WaitUntilReadyToShoot());
+	AddSequential(new UnbindSubsystem(Robot::shooterWheel));
+	// set comment on
+}
+
+// Wait Until Ready To Shoot
+
+WaitUntilReadyToShoot::WaitUntilReadyToShoot() :
+		CommandStub("Wait Until Ready To Shoot") {
+}
+bool WaitUntilReadyToShoot::IsFinished() {
+	return Robot::shooterWheel->atTargetSpeed() && Robot::shooter->holdsDisk();
+}
+

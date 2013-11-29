@@ -17,7 +17,7 @@ LiftManual::LiftManual() :
 }
 
 void LiftManual::Execute() {
-	float slider = Robot::oi->getAngleSliderValue();
+	double slider = Robot::oi->getAngleSliderValue();
 
 	if (slider < 0.2f && slider > -0.2f) {
 		Robot::anglingTool->setSpeed(0.0);
@@ -35,20 +35,8 @@ LiftStatic::LiftStatic() :
 }
 void LiftStatic::Execute() {
 	GetPIDController()->SetSetpoint(Robot::oi->getAngleSliderValue());
-
-	if (!GetPIDController()->IsEnabled()) {
-		printf("Enabling STATIC\n");
-		GetPIDController()->Enable();
-	}
 }
-// this function MAY NEVER call PIDController::GetError()
 double LiftStatic::ReturnPIDInput() {
-	// if this code were in UsePIDOutput, the call
-	// to Disable would call UsePIDOutput. to infinite loop.
-	if (Robot::getInstance().IsDisabled()) {
-		printf("Disabling STATIC\n");
-		GetPIDController()->Reset();
-	}
 	return Robot::anglingTool->getAngle();
 }
 void LiftStatic::UsePIDOutput(double output) {
@@ -57,14 +45,13 @@ void LiftStatic::UsePIDOutput(double output) {
 
 // Lift Target
 
-LiftTarget::LiftTarget(float angle) :
+LiftTarget::LiftTarget(double angle) :
 		PIDCommand("Lift Target", ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
 		ANGLE_PID_PERIOD) {
 	Requires(Robot::anglingTool);
 	GetPIDController()->SetSetpoint(angle);
 }
-
-LiftTarget::LiftTarget(const char* name, float angle) :
+LiftTarget::LiftTarget(const char* name, double angle) :
 		PIDCommand(name, ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
 		ANGLE_PID_PERIOD) {
 	Requires(Robot::anglingTool);
@@ -81,7 +68,6 @@ void LiftTarget::UsePIDOutput(double output) {
 
 LiftToTarget::LiftToTarget(double angle) :
 		LiftTarget(angle) {
-
 }
 bool LiftToTarget::IsFinished() {
 	double delta = Robot::anglingTool->getAngle()

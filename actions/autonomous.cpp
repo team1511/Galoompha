@@ -7,7 +7,7 @@
 #define SHOOT_POWER		0.63
 
 AutonRoutine::AutonRoutine() {
-	AddSequential(new LiftTarget(SHOOT_ANGLE));
+	AddSequential(new LiftToTarget(SHOOT_ANGLE));
 	AddSequential(new ShootDisk());
 	AddSequential(new ShootDisk());
 	AddSequential(new ShootDisk());

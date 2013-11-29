@@ -9,25 +9,10 @@ public:
 	DeploySequence();
 };
 
-class ArmsRest: public CommandStub {
-public:
-	ArmsRest();
-};
-
 class ArmsManual: public CommandStub {
 public:
 	ArmsManual();
 	virtual void Execute();
-};
-
-class DumperRest: public CommandStub {
-public:
-	DumperRest();
-};
-
-class DeployerRest: public CommandStub {
-public:
-	DeployerRest();
 };
 
 // actions
@@ -35,24 +20,12 @@ public:
 class Dump: public OneShotCommand {
 public:
 	Dump();
-	virtual void Initialize();
 	virtual void Execute();
-	virtual bool IsFinished();
-	virtual void End();
 };
 
 class Deploy: public OneShotCommand {
 public:
 	Deploy();
-	virtual void Execute();
-	virtual void End();
-};
-
-// stately locks
-
-class UnlockDumper: public OneShotCommand {
-public:
-	UnlockDumper();
 	virtual void Execute();
 };
 

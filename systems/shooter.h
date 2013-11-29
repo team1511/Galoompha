@@ -31,11 +31,12 @@ public:
 	double getCurrent();
 };
 
-class ShooterOther: public Subsystem {
+class ShooterOther: public ResettableSubsystem {
 public:
 	ShooterOther();
-	void InitDefaultCommand();
 	
+	virtual void Reset();
+
 	void block(bool doit);
 	void kick(bool forward);
 

@@ -6,8 +6,6 @@
 class Arms: public Subsystem {
 public:
 	Arms();
-	void InitDefaultCommand();
-
 	void setPower(double power);
 	bool hitTopLimit();
 	bool hitBottomLimit();
@@ -26,30 +24,29 @@ private:
 	double output;
 };
 
-class Dumper: public Subsystem {
+class Dumper: public ResettableSubsystem {
 public:
 	Dumper();
-	void InitDefaultCommand();
+	virtual void Reset();
 
 	void dump(bool dump);
-	void lock(bool lock);
-	bool isLocked();
 
 	double getPos();
 private:
-	bool locked;
 	Servo* servo;
 };
 
-class Deployer: public Subsystem {
+class Deployer: public ResettableSubsystem {
 public:
 	Deployer();
-	void InitDefaultCommand();
+	virtual void Reset();
 
 	void deploy(bool deploy);
+	bool hasDeployed();
 	double getPos();
 private:
 	Servo* servo;
+	bool deployed;
 };
 
 #endif // SYSTEMS_CLIMBER_H_

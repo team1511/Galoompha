@@ -74,13 +74,13 @@ ShooterOther::ShooterOther() :
 	loadSensor = RobotMap::shooterLoadSensor;
 	kicker = RobotMap::shooterKicker;
 	blocker = RobotMap::shooterBlocker;
-	block(false);
+	block(true);
 	kick(false);
-
 }
-void ShooterOther::InitDefaultCommand() {
+void ShooterOther::Reset() {
+	block(true);
+	kick(false);
 }
-
 void ShooterOther::block(bool doit) {
 	blocked = doit;
 	blocker->Set(blocked ? BLOCK_HIGH : BLOCK_LOW);

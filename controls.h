@@ -14,6 +14,7 @@ public:
 	double getClimberPower();
 
 	bool getClimberLimitsBroken();
+	bool getContinuousShooting();
 private:
 	Joystick* virtualStick;
 	JoystickButton* indexBroken;

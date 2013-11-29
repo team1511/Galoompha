@@ -9,36 +9,22 @@ public:
 	ShootDisk();
 };
 
-// Kicker
-
-class MoveKickerForward: public CommandStub {
+class MoveKicker: public OneShotCommand {
 public:
-	MoveKickerForward();
+	typedef enum {kKick, kRetract} Direction;
+	MoveKicker(Direction d);
 	virtual void Execute();
-	virtual bool IsFinished();
+private:
+	Direction dir;
 };
 
-class RetractKicker: public CommandStub {
+class MoveBlocker: public OneShotCommand {
 public:
-	RetractKicker();
+	typedef enum {kBlock, kClear} Position;
+	MoveBlocker(Position forward);
 	virtual void Execute();
-	virtual bool IsFinished();
-};
-
-// Blocker
-
-class RaiseBlocker: public CommandStub {
-public:
-	RaiseBlocker();
-	virtual void Execute();
-	virtual bool IsFinished();
-};
-
-class DropBlocker: public CommandStub {
-public:
-	DropBlocker();
-	virtual void Execute();
-	virtual bool IsFinished();
+private:
+	Position pos;
 };
 
 // Wheel
@@ -49,17 +35,21 @@ public:
 	virtual void Execute();
 };
 
-class WaittoShoot: public CommandStub {
-public:
-	WaittoShoot();
-	virtual void Execute();
-	virtual bool IsFinished();
-};
-
 class MaintainSpeed: public CommandStub {
 public:
 	MaintainSpeed();
 	virtual void Execute();
+};
+
+class WaittoShoot: public CommandGroup {
+public:
+	WaittoShoot();
+};
+
+class WaitUntilReadyToShoot: public CommandStub {
+public:
+	WaitUntilReadyToShoot();
+	virtual bool IsFinished();
 };
 
 #endif

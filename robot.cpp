@@ -2,12 +2,13 @@
 #include "actions/autonomous.h"
 #include "utils/resettable_subsystem.h"
 
+OI* Robot::oi = 0;
+
 Indexer* Robot::indexer = 0;
 ShooterOther* Robot::shooter = 0;
 ShooterWheel* Robot::shooterWheel = 0;
 AnglingTool* Robot::anglingTool = 0;
 Drive* Robot::drive = 0;
-OI* Robot::oi = 0;
 Debug* Robot::debug = 0;
 Arms* Robot::arms = 0;
 Dumper* Robot::dumper = 0;
