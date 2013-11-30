@@ -9,14 +9,22 @@ public:
 	Generic3ShotAuton(const char* name, double angle, double power);
 };
 
-class AutonSwitcher: public OneShotCommand {
-private:
-	Generic3ShotAuton b2h;
-	Generic3ShotAuton b2m;
-	Generic3ShotAuton fc2h;
+class AutonBackToHigh : public Generic3ShotAuton {
 public:
-	AutonSwitcher();
-	virtual void Initialize();
+	AutonBackToHigh();
+};
+class AutonBackToMid : public Generic3ShotAuton {
+public:
+	AutonBackToMid();
+};
+class AutonFrontCenterToHigh : public Generic3ShotAuton {
+public:
+	AutonFrontCenterToHigh();
+};
+
+class AutonNull : OneShotCommand {
+public:
+	AutonNull();
 };
 
 

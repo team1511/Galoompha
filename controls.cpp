@@ -78,7 +78,10 @@ OI::OI() {
 	climberDebug->WhileHeld(new DebugClimber());
 
 	// SmartDashboard Buttons
-	addSD(new AutonSwitcher());
+	addSD(new AutonBackToHigh());
+	addSD(new AutonFrontCenterToHigh());
+	addSD(new AutonBackToMid());
+	addSD(new AutonNull());
 
 	addSD(new LiftFeed());
 	addSD(new LiftStatic());

@@ -11,32 +11,6 @@ const double POWER_B2M = 0.58;
 const double ANGLE_F2H = -0.35;
 const double POWER_F2H = 0.58;
 
-// yes, AutonSwitcher is not memory-safe.
-// would need to go CommandGroup style (assume requirements, mirror End/Interrupted...)
-AutonSwitcher::AutonSwitcher() :
-		OneShotCommand("Auton Switcher"), //
-		b2h("Back To High", ANGLE_B2H, POWER_B2H), //
-		b2m("Back To Mid", ANGLE_B2M, POWER_B2M), //
-		fc2h("Front Center To High", ANGLE_F2H, POWER_F2H) {
-
-}
-void AutonSwitcher::Initialize() {
-	int choice = 1;
-	switch (choice) {
-	case 1:
-		b2h.Start();
-		return;
-	case 2:
-		b2m.Start();
-		return;
-	case 3:
-		fc2h.Start();
-		return;
-	default:
-		return;
-	}
-}
-
 Generic3ShotAuton::Generic3ShotAuton(const char* name, double angle,
 		double power) :
 		CommandGroup(name) {
@@ -44,4 +18,19 @@ Generic3ShotAuton::Generic3ShotAuton(const char* name, double angle,
 	AddSequential(new ShootDisk(ShooterWheel::kCustom, power));
 	AddSequential(new ShootDisk(ShooterWheel::kCustom, power));
 	AddSequential(new ShootDisk(ShooterWheel::kCustom, power));
+}
+
+AutonBackToHigh::AutonBackToHigh() :
+		Generic3ShotAuton("Auton: Back To High", ANGLE_B2H, POWER_B2H) {
+}
+
+AutonBackToMid::AutonBackToMid() :
+		Generic3ShotAuton("Auton: Back To Mid", ANGLE_B2M, POWER_B2M) {
+}
+
+AutonFrontCenterToHigh::AutonFrontCenterToHigh() :
+		Generic3ShotAuton("Auton: Front Center To High", ANGLE_F2H, POWER_F2H) {
+}
+
+AutonNull::AutonNull() : OneShotCommand("Auton: No Action") {
 }

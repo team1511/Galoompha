@@ -4,6 +4,8 @@
 #include "WPILib.h"
 #include "LiveWindow/LiveWindow.h"
 
+#include "utils/sendable_command_chooser.h"
+
 #include "robotmap.h"
 #include "controls.h"
 
@@ -35,7 +37,7 @@ public:
     virtual void Test();
 
 private:
-	Command* autonomousCommand;
+    SendableCommandChooser* autonSelector;
 	LiveWindow* lw;
 };
 

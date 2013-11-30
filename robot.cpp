@@ -42,7 +42,11 @@ void Robot::RobotInit() {
 
 	lw = LiveWindow::GetInstance();
 
-	autonomousCommand = new AutonSwitcher();
+	autonSelector = new SendableCommandChooser("Autonomous Command Chooser");
+	autonSelector->AddDefault(new AutonNull());
+	autonSelector->AddCommand(new AutonBackToHigh());
+	autonSelector->AddCommand(new AutonFrontCenterToHigh());
+	autonSelector->AddCommand(new AutonBackToMid());
 }
 
 //The Pseudocode for each section is:
@@ -81,9 +85,7 @@ void Robot::Autonomous() {
 	EnterMode("Autonomous");
 	ResettableSubsystem::ResetAll();
 
-	if (autonomousCommand != NULL) {
-		autonomousCommand->Start();
-	}
+	autonSelector->GetSelected()->Start();
 
 	while (IsAutonomous() && IsEnabled()) {
 		Scheduler::GetInstance()->Run();
