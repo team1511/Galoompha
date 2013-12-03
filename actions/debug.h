@@ -1,7 +1,7 @@
 #ifndef ACTIONS_DEBUG_H_
 #define ACTIONS_DEBUG_H_
 
-#include "utils/command_stub.h"
+#include "../utils/command_stub.h"
 
 class DebugNothing : public CommandStub {
 public:

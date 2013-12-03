@@ -1,7 +1,7 @@
-#include "systems/lift.h"
-#include "actions/lift.h"
-#include "utils/calc.h"
-#include "robot.h"
+#include "../systems/lift.h"
+#include "../actions/lift.h"
+#include "../utils/calc.h"
+#include "../robot.h"
 
 //absolute limits for the pot on the angle controller
 const double ANGLEPOT_MAX = 1.2;

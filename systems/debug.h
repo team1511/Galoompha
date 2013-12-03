@@ -4,6 +4,7 @@
 #include "WPILib.h"
 
 class Debug: public Subsystem {
+public:
 	Debug();
 	void InitDefaultCommand();
 };

@@ -1,6 +1,7 @@
-#include "systems/climber.h"
-#include "actions/climb.h"
-#include "robotmap.h"
+#include "../systems/climber.h"
+#include "../actions/climb.h"
+#include "../robotmap.h"
+#include "../robot.h"
 
 const double DEPLOY_OUT = 0.1;
 const double DEPLOY_LOCK = 0.7;

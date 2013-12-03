@@ -2,7 +2,7 @@
 #define AUTONOMOUS_H
 
 #include "Commands/CommandGroup.h"
-#include "utils/command_stub.h"
+#include "../utils/command_stub.h"
 
 class Generic3ShotAuton: public CommandGroup {
 public:
@@ -22,7 +22,7 @@ public:
 	AutonFrontCenterToHigh();
 };
 
-class AutonNull : OneShotCommand {
+class AutonNull : public OneShotCommand {
 public:
 	AutonNull();
 };

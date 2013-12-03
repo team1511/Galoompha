@@ -1,5 +1,5 @@
-#include "systems/debug.h"
-#include "actions/debug.h"
+#include "../systems/debug.h"
+#include "../actions/debug.h"
 
 Debug::Debug() :
 		Subsystem("Debug") {

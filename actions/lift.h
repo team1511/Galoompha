@@ -1,8 +1,8 @@
 #ifndef LIFT_MANUAL_H
 #define LIFT_MANUAL_H
 
-#include "utils/command_stub.h"
-#include "utils/pid_command_stub.h"
+#include "../utils/command_stub.h"
+#include "../utils/pid_command_stub.h"
 
 class LiftManual: public CommandStub {
 public:

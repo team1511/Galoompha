@@ -3,9 +3,9 @@
 
 #include "WPILib.h"
 
-#include "utils/mono_encoder.h"
-#include "utils/threadless_pid.h"
-#include "utils/resettable_subsystem.h"
+#include "../utils/mono_encoder.h"
+#include "../utils/threadless_pid.h"
+#include "../utils/resettable_subsystem.h"
 
 class ShooterWheel: public ResettableSubsystem {
 private:

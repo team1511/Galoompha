@@ -1,5 +1,5 @@
-#include "actions/lift.h"
-#include "robot.h"
+#include "../actions/lift.h"
+#include "../robot.h"
 #include "PIDController.h"
 
 const double ANGLE_FEED = 0.44;
@@ -47,13 +47,13 @@ void LiftStatic::UsePIDOutput(double output) {
 // Lift Target
 
 LiftTarget::LiftTarget(double angle) :
-		PIDCommand("Lift Target", ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
+		PIDCommandStub("Lift Target", ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
 		ANGLE_PID_PERIOD) {
 	Requires(Robot::anglingTool);
 	GetPIDController()->SetSetpoint(angle);
 }
 LiftTarget::LiftTarget(const char* name, double angle) :
-		PIDCommand(name, ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
+		PIDCommandStub(name, ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
 		ANGLE_PID_PERIOD) {
 	Requires(Robot::anglingTool);
 	GetPIDController()->SetSetpoint(angle);

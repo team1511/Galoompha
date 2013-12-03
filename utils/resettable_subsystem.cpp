@@ -1,6 +1,6 @@
-#include "utils/resettable_subsystem.h"
+#include "../utils/resettable_subsystem.h"
 
-Command::SubsystemSet* ResettableSubsystem::systems = 0;
+std::set<ResettableSubsystem*>* ResettableSubsystem::systems = 0;
 
 ResettableSubsystem::ResettableSubsystem(const char* name) :
 		Subsystem(name) {

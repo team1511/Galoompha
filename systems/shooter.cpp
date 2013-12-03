@@ -1,7 +1,7 @@
-#include "systems/shooter.h"
-#include "robotmap.h"
-#include "actions/shoot.h"
-#include "utils/calc.h"
+#include "../systems/shooter.h"
+#include "../robotmap.h"
+#include "../actions/shoot.h"
+#include "../utils/calc.h"
 
 const double SPEED_CLOSE = 0.05;
 
@@ -70,7 +70,7 @@ double ShooterWheel::getCurrent() {
 // Shooter Other
 
 ShooterOther::ShooterOther() :
-		Subsystem("Shooter Other") {
+		ResettableSubsystem("Shooter Other") {
 	loadSensor = RobotMap::shooterLoadSensor;
 	kicker = RobotMap::shooterKicker;
 	blocker = RobotMap::shooterBlocker;

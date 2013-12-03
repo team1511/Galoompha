@@ -2,6 +2,7 @@
 #define DRIVE_H_
 
 #include "WPILib.h"
+#include "../utils/mono_encoder.h"
 
 class Drive: public Subsystem {
 public:

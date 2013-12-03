@@ -1,4 +1,4 @@
-#include "utils/command_stub.h"
+#include "../utils/command_stub.h"
 
 CommandStub::CommandStub(const char* name) :
 		Command(name) {
@@ -38,6 +38,6 @@ void CommandStub::Interrupted() {
 OneShotCommand::OneShotCommand(const char* f) :
 		CommandStub(f) {
 }
-virtual bool OneShotCommand::IsFinished() {
+bool OneShotCommand::IsFinished() {
 	return true;
 }

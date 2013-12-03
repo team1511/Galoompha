@@ -11,6 +11,8 @@
 #include "actions/debug.h"
 #include "actions/climb.h"
 
+#include "robot.h"
+
 void addSD(Command* c) {
 	SmartDashboard::PutData(c->GetName(), c);
 }
@@ -33,6 +35,8 @@ protected:
 
 // yes, could implement this via Trigger etc.
 class SetEncoder: public ChangeCommand {
+public:
+	SetEncoder(bool b) : ChangeCommand(b) {}
 	virtual void Call(bool newval) {
 		Robot::shooterWheel->setEncoderBroken(newval);
 	}

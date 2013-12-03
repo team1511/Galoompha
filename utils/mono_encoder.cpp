@@ -1,4 +1,4 @@
-#include "utils/mono_encoder.h"
+#include "../utils/mono_encoder.h"
 
 MonoEncoder::MonoEncoder(int channel, double max_rps, int tpr) {
 	ticks_per_rev = tpr;

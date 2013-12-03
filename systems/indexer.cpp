@@ -1,6 +1,6 @@
-#include "systems/indexer.h"
-#include "robotmap.h"
-#include "actions/index.h"
+#include "../systems/indexer.h"
+#include "../robotmap.h"
+#include "../actions/index.h"
 
 Indexer::Indexer() : Subsystem("Indexer") {
 	indexerWheel = RobotMap::indexerIndexerWheel;

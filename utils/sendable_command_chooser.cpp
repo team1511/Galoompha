@@ -1,5 +1,6 @@
-#include "utils/sendable_command_chooser.h"
+#include "../utils/sendable_command_chooser.h"
 #include "SmartDashboard/SmartDashboard.h"
+#include <string>
 
 SendableCommandChooser::SendableCommandChooser(const char* name) :
 		chooser() {
@@ -8,12 +9,12 @@ SendableCommandChooser::SendableCommandChooser(const char* name) :
 SendableCommandChooser::~SendableCommandChooser() {
 }
 void SendableCommandChooser::AddDefault(Command* comm) {
-	chooser.AddDefault(comm->GetName().c_char(), comm);
+	chooser.AddDefault(comm->GetName().data(), comm);
 }
 void SendableCommandChooser::AddCommand(Command* comm) {
-	chooser.AddObject(comm->GetName().c_char(), comm);
+	chooser.AddObject(comm->GetName().data(), comm);
 }
 Command* SendableCommandChooser::GetSelected() {
-	return chooser.GetSelected();
+	return (Command*)chooser.GetSelected();
 }
 

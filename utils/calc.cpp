@@ -1,4 +1,4 @@
-#include "utils/calc.h"
+#include "../utils/calc.h"
 
 double linearRangeScale(double v, double min, double max,
 		double newMin, double newMax) {

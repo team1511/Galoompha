@@ -1,4 +1,4 @@
-#include "utils/pid_command_stub.h"
+#include "../utils/pid_command_stub.h"
 #include "PIDController.h"
 
 PIDCommandStub::PIDCommandStub(const char* name, double p, double i, double d,

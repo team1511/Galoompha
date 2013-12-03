@@ -1,6 +1,6 @@
-#include "actions/autonomous.h"
-#include "actions/shoot.h"
-#include "actions/lift.h"
+#include "../actions/autonomous.h"
+#include "../actions/shoot.h"
+#include "../actions/lift.h"
 
 const double ANGLE_B2H = -0.93;
 const double POWER_B2H = 0.63;

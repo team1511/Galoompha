@@ -1,8 +1,8 @@
-#include "actions/debug.h"
-#include "robot.h"
+#include "../actions/debug.h"
+#include "../robot.h"
 
 char b2c(bool b) {
-	return b ? "Y" : "N";
+	return b ? 'Y' : 'N';
 }
 
 DebugNothing::DebugNothing() :

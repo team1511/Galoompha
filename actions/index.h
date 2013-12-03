@@ -1,7 +1,7 @@
 #ifndef INDEX_MANUAL_H
 #define INDEX_MANUAL_H
 
-#include "utils/command_stub.h"
+#include "../utils/command_stub.h"
 #include "Commands/CommandGroup.h"
 
 class IndexManual: public CommandStub {

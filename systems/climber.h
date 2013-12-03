@@ -2,6 +2,7 @@
 #define SYSTEMS_CLIMBER_H_
 
 #include "WPILib.h"
+#include "../utils/resettable_subsystem.h"
 
 class Arms: public Subsystem {
 public:

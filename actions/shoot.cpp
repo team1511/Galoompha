@@ -1,7 +1,7 @@
-#include "actions/shoot.h"
-#include "utils/calc.h"
-#include "robot.h"
-#include "utils/unbind_subsystem.h"
+#include "../actions/shoot.h"
+#include "../utils/calc.h"
+#include "../robot.h"
+#include "../utils/unbind_subsystem.h"
 
 const double DROP_TIME = 0.5;
 const double GUARD_LOWER_TIME = 0.3;

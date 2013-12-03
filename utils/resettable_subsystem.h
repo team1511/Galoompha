@@ -11,7 +11,7 @@ public:
 
 	static void ResetAll();
 private:
-	static std::set<ResettableSubsystem*> systems;
+	static std::set<ResettableSubsystem*>* systems;
 };
 
 #endif // UTILS_RESETTABLE_SUBSYSTEM_H_

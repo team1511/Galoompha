@@ -1,5 +1,5 @@
-#include "actions/index.h"
-#include "robot.h"
+#include "../actions/index.h"
+#include "../robot.h"
 
 // Index Manual
 

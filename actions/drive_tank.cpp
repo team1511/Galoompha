@@ -1,5 +1,5 @@
-#include "actions/drive_tank.h"
-#include "robot.h"
+#include "../actions/drive_tank.h"
+#include "../robot.h"
 
 const char* genName(Drive::NeutralMode coast) {
 	switch (coast) {
@@ -8,6 +8,7 @@ const char* genName(Drive::NeutralMode coast) {
 	case Drive::kBrake:
 		return "Tank Drive: Brake";
 	}
+	return "???NAMEERROR????";
 }
 
 TankDrive::TankDrive(Drive::NeutralMode coast) :

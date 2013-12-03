@@ -2,8 +2,8 @@
 #define SHOOT_DISK_H
 
 #include "Commands/CommandGroup.h"
-#include "utils/command_stub.h"
-#include "systems/shooter.h"
+#include "../utils/command_stub.h"
+#include "../systems/shooter.h"
 
 class ShootDisk: public CommandGroup {
 public:

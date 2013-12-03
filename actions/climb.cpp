@@ -1,5 +1,6 @@
-#include "actions/climb.h"
-#include "actions/lift.h"
+#include "../actions/climb.h"
+#include "../actions/lift.h"
+#include "../robot.h"
 
 const double CLIMB_ANGLE = 0.95;
 

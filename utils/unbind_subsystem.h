@@ -1,9 +1,9 @@
 #ifndef UTILS_UNBIND_SUBSYSTEM_H_
 #define UTILS_UNBIND_SUBSYSTEM_H_
 
-#include "utils/command_stub.h"
+#include "../utils/command_stub.h"
 
-class UnbindSubsystem : OneShotCommand {
+class UnbindSubsystem : public OneShotCommand {
 public:
 	UnbindSubsystem(Subsystem* s);
 };

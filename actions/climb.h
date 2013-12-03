@@ -2,7 +2,7 @@
 #define ACTIONS_CLIMB_H_
 
 #include "Commands/CommandGroup.h"
-#include "utils/command_stub.h"
+#include "../utils/command_stub.h"
 
 class DeploySequence: public CommandGroup {
 public:
