@@ -26,6 +26,9 @@ ArmsManual::ArmsManual() :
 void ArmsManual::Execute() {
 	Robot::arms->setPower(Robot::oi->getClimberPower());
 }
+void ArmsManual::End() {
+	Robot::arms->setPower(0.0);
+}
 
 // Actions.
 
@@ -62,11 +65,11 @@ void LockShooterBlob::Execute() {
 // Do After Deploy
 
 DoIfDeployed::DoIfDeployed(Command* c) :
-		OneShotCommand("Run Mystery Command After Deploy") {
-	todo = c;
+		OneShotCommand("Do If Deployed") {
+	tostart = c;
 }
 void DoIfDeployed::Initialize() {
 	if (Robot::deployer->hasDeployed()) {
-		todo->Start();
+		tostart->Start();
 	}
 }

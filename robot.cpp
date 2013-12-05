@@ -33,20 +33,26 @@ void Robot::RobotInit() {
 	dumper = new Dumper();
 	deployer = new Deployer();
 
+	printf("SUBSSYTEMS:\n");
+	
 	// This MUST be here. If the OI creates Commands (which it very likely
 	// will), constructing it during the construction of CommandBase (from
 	// which commands extend), subsystems are not guaranteed to be
 	// yet. Thus, their requires() statements may grab null pointers. Bad
 	// news. Don't move it.
 	oi = new OI();
+	
+	printf("OI:\n");
 
 	lw = LiveWindow::GetInstance();
-
-	autonSelector = new SendableCommandChooser("Autonomous Command Chooser");
-	autonSelector->AddDefault(new AutonNull());
-	autonSelector->AddCommand(new AutonBackToHigh());
-	autonSelector->AddCommand(new AutonFrontCenterToHigh());
-	autonSelector->AddCommand(new AutonBackToMid());
+	
+	printf("LW:\n");
+//
+//	autonSelector = new SendableCommandChooser("Autonomous Command Chooser");
+//	autonSelector->AddDefault(new AutonNull());
+//	autonSelector->AddCommand(new AutonBackToHigh());
+//	autonSelector->AddCommand(new AutonFrontCenterToHigh());
+//	autonSelector->AddCommand(new AutonBackToMid());
 }
 
 //The Pseudocode for each section is:

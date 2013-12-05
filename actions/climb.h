@@ -13,6 +13,7 @@ class ArmsManual: public CommandStub {
 public:
 	ArmsManual();
 	virtual void Execute();
+	virtual void End();
 };
 
 // actions
@@ -44,7 +45,7 @@ public:
 	DoIfDeployed(Command* c);
 	virtual void Initialize();
 private:
-	Command* todo;
+	Command* tostart;
 };
 
 #endif

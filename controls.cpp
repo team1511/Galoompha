@@ -17,35 +17,34 @@ void addSD(Command* c) {
 	SmartDashboard::PutData(c->GetName(), c);
 }
 
-class ChangeCommand: public OneShotCommand {
+// yes, could implement this via Trigger etc.
+class SetEncoder: public OneShotCommand {
 private:
 	bool vv;
 public:
-	ChangeCommand(bool val) :
-			OneShotCommand("Control change") {
+	SetEncoder(bool val) :
+		OneShotCommand("Control change") {
 		SetRunWhenDisabled(true);
 		vv = val;
 	}
-	virtual void Call(bool newval) = 0;
-protected:
 	virtual void Execute() {
-		Call(vv);
+		Robot::shooterWheel->setEncoderBroken(vv);
 	}
 };
 
-// yes, could implement this via Trigger etc.
-class SetEncoder: public ChangeCommand {
-public:
-	SetEncoder(bool b) : ChangeCommand(b) {}
-	virtual void Call(bool newval) {
-		Robot::shooterWheel->setEncoderBroken(newval);
-	}
-};
+Command* makeDumpIfDeployed() {
+	Dump* d = new Dump();
+	DoIfDeployed* f = new DoIfDeployed(d);
+	return f;
+}
 
 OI::OI() {
 	// Process operator interface input here.
-
+	leftDrive = new Joystick(1);
+	rightDrive = new Joystick(2);
+	auxStick = new Joystick(3);
 	virtualStick = new Joystick(4);
+	
 	indexBroken = new JoystickButton(virtualStick, 1);
 	indexBroken->WhileHeld(new IndexManual());
 	angleBroken = new JoystickButton(virtualStick, 3);
@@ -56,7 +55,6 @@ OI::OI() {
 	wheelEncBroken->WhenPressed(new SetEncoder(true));
 	wheelEncBroken->WhenReleased(new SetEncoder(false));
 
-	auxStick = new Joystick(3);
 	shoot = new JoystickButton(auxStick, 1);
 	shoot->WhileHeld(new ShootDisk());
 	feed = new JoystickButton(auxStick, 2);
@@ -68,12 +66,9 @@ OI::OI() {
 	dump2 = new JoystickButton(rightDrive, 11);
 	dump1->WhenPressed(new DoIfDeployed(new Dump()));
 	dump2->WhenPressed(new DoIfDeployed(new Dump()));
-	deploy = new JoystickButton(auxStick, 10);
+	deploy = new JoystickButton(auxStick, 6);
 	deploy->WhenPressed(new DeploySequence());
 
-	rightDrive = new Joystick(2);
-
-	leftDrive = new Joystick(1);
 	driveDebug = new JoystickButton(leftDrive, 11);
 	driveDebug->WhileHeld(new DebugDrive());
 	shooterDebug = new JoystickButton(leftDrive, 6);

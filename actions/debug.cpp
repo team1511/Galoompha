@@ -8,6 +8,7 @@ char b2c(bool b) {
 DebugNothing::DebugNothing() :
 		CommandStub("Debug Nothing") {
 	Requires(Robot::debug);
+	SetRunWhenDisabled(true);
 }
 void DebugNothing::Initialize() {
 	DebugWriter().clear();
@@ -16,6 +17,7 @@ void DebugNothing::Initialize() {
 DebugShooter::DebugShooter() :
 		CommandStub("Debug Shooter") {
 	Requires(Robot::debug);
+	SetRunWhenDisabled(true);
 }
 void DebugShooter::Execute() {
 	DebugWriter d;
@@ -23,7 +25,7 @@ void DebugShooter::Execute() {
 	ShooterWheel* w = Robot::shooterWheel;
 	AnglingTool* a = Robot::anglingTool;
 	Indexer* i = Robot::indexer;
-	d.line1("Spd I%0.3f A%0.3f W%.3f", i->getSpeed(), a->getSpeed(),
+	d.line1("Spd I%0.2f A%0.2f W%.2f", i->getSpeed(), a->getSpeed(),
 			w->getSpeed());
 	d.line2("Cur I%2.1f A%2.1f W%2.1f", i->getCurrent(), a->getCurrent(),
 			w->getCurrent());
@@ -36,6 +38,7 @@ void DebugShooter::Execute() {
 DebugDrive::DebugDrive() :
 		CommandStub("Debug Drive") {
 	Requires(Robot::debug);
+	SetRunWhenDisabled(true);
 }
 void DebugDrive::Execute() {
 	DebugWriter d;
@@ -49,6 +52,7 @@ void DebugDrive::Execute() {
 DebugClimber::DebugClimber() :
 		CommandStub("Debug Climber") {
 	Requires(Robot::debug);
+	SetRunWhenDisabled(true);
 }
 void DebugClimber::Execute() {
 	DebugWriter d;
