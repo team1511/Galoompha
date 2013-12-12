@@ -28,7 +28,9 @@ double powerJoystickCurve(double axisvalue, bool slow, bool turbo) {
 		power = axisvalue * axisvalue * axisvalue;
 		if (slow) {
 			power *= 0.3;
-		} else if (!turbo) {
+		} else if (turbo) {
+			power *= 1.0;
+		} else {
 			power *= 0.7;
 		}
 	}

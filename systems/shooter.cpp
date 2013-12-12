@@ -33,13 +33,13 @@ void ShooterWheel::Reset() {
 }
 void ShooterWheel::setTargetSpeed(double speed) {
 	if (enc_broken) {
-		shooterWheel->Set(speed);
+		shooterWheel->Set(-speed);
 	} else {
-		target = speed;
 		double actual = encoder->getSpeed();
 		double output = pid.calc(target, actual);
 		shooterWheel->Set(-bound(output, 0.0, 1.0));
 	}
+	target = speed;
 }
 bool ShooterWheel::atTargetSpeed() {
 	double actual = encoder->getSpeed();

@@ -14,6 +14,7 @@ Arms* Robot::arms = 0;
 Dumper* Robot::dumper = 0;
 Deployer* Robot::deployer = 0;
 Lights* Robot::lights = 0;
+DashBoard* Robot::dashboard = 0;
 
 const double kRobotPeriod = 0.05;
 
@@ -34,6 +35,7 @@ void Robot::RobotInit() {
 	dumper = new Dumper();
 	deployer = new Deployer();
 	lights = new Lights();
+	dashboard = new DashBoard();
 
 	printf("SUBSSYTEMS:\n");
 	

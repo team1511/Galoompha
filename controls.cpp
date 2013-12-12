@@ -118,8 +118,8 @@ OI::OI() {
 
 double getDrivePower(Joystick* stick) {
 	double input = stick->GetY();
-	bool slow = stick->GetRawButton(1);
-	bool turbo = stick->GetRawButton(2);
+	bool turbo = stick->GetRawButton(1);
+	bool slow = stick->GetRawButton(2);
 	return powerJoystickCurve(input, slow, turbo);
 }
 
