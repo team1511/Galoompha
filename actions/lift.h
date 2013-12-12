@@ -13,6 +13,7 @@ public:
 class LiftStatic: public PIDCommandStub {
 public:
 	LiftStatic();
+	virtual void Initialize();
 	virtual void Execute();
 	virtual double ReturnPIDInput();
 	virtual void UsePIDOutput(double output);
@@ -24,6 +25,7 @@ public:
 	LiftTarget(const char* name, double angle);
 	virtual double ReturnPIDInput();
 	virtual void UsePIDOutput(double output);
+	bool OnTarget();
 };
 
 class LiftToTarget: public LiftTarget {
@@ -35,6 +37,10 @@ public:
 class LiftFeed: public LiftTarget {
 public:
 	LiftFeed();
+	virtual void Initialize();
+	virtual void Execute();
+	virtual void End();
+	virtual void Interrupted();
 };
 
 #endif

@@ -39,9 +39,6 @@ void ShooterWheel::setTargetSpeed(double speed) {
 		double actual = encoder->getSpeed();
 		double output = pid.calc(target, actual);
 		shooterWheel->Set(-bound(output, 0.0, 1.0));
-
-		printf("goal %f real %f err %f | out %f\n", target, actual,
-				target - actual, output);
 	}
 }
 bool ShooterWheel::atTargetSpeed() {

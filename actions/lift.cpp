@@ -14,8 +14,9 @@ const double ANGLE_CLOSE = 0.05;
 // Lift Manual
 
 LiftManual::LiftManual() :
-		CommandStub("Lift Manual") {
+	CommandStub("Lift Manual") {
 	Requires(Robot::anglingTool);
+	Requires(Robot::lights);
 }
 void LiftManual::Execute() {
 	double slider = Robot::oi->getAngleSliderValue();
@@ -30,9 +31,13 @@ void LiftManual::Execute() {
 // Lift Static
 
 LiftStatic::LiftStatic() :
-		PIDCommandStub("Lift Static", ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
-		ANGLE_PID_PERIOD) {
+			PIDCommandStub("Lift Static", ANGLE_PID_P, ANGLE_PID_I,
+					ANGLE_PID_D, ANGLE_PID_PERIOD) {
 	Requires(Robot::anglingTool);
+	Requires(Robot::lights);
+}
+void LiftStatic::Initialize() {
+	Robot::lights->setFeed(Lights::kNone);
 }
 void LiftStatic::Execute() {
 	GetPIDController()->SetSetpoint(Robot::oi->getAngleSliderValue());
@@ -47,15 +52,17 @@ void LiftStatic::UsePIDOutput(double output) {
 // Lift Target
 
 LiftTarget::LiftTarget(double angle) :
-		PIDCommandStub("Lift Target", ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
-		ANGLE_PID_PERIOD) {
+			PIDCommandStub("Lift Target", ANGLE_PID_P, ANGLE_PID_I,
+					ANGLE_PID_D, ANGLE_PID_PERIOD) {
 	Requires(Robot::anglingTool);
+	Requires(Robot::lights);
 	GetPIDController()->SetSetpoint(angle);
 }
 LiftTarget::LiftTarget(const char* name, double angle) :
-		PIDCommandStub(name, ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
-		ANGLE_PID_PERIOD) {
+			PIDCommandStub(name, ANGLE_PID_P, ANGLE_PID_I, ANGLE_PID_D,
+					ANGLE_PID_PERIOD) {
 	Requires(Robot::anglingTool);
+	Requires(Robot::lights);
 	GetPIDController()->SetSetpoint(angle);
 }
 double LiftTarget::ReturnPIDInput() {
@@ -64,20 +71,37 @@ double LiftTarget::ReturnPIDInput() {
 void LiftTarget::UsePIDOutput(double output) {
 	Robot::anglingTool->setSpeed(output);
 }
+bool LiftTarget::OnTarget() {
+	double delta = Robot::anglingTool->getAngle()
+			- GetPIDController()->GetSetpoint();
+	return (delta > -ANGLE_CLOSE && delta < ANGLE_CLOSE);	
+}
 
 // Lift To Target
 
 LiftToTarget::LiftToTarget(double angle) :
-		LiftTarget(angle) {
+	LiftTarget(angle) {
 }
 bool LiftToTarget::IsFinished() {
-	double delta = Robot::anglingTool->getAngle()
-			- GetPIDController()->GetSetpoint();
-	return (delta > -ANGLE_CLOSE && delta < ANGLE_CLOSE);
+	return OnTarget();
 }
 
 // Lift Feed
 
 LiftFeed::LiftFeed() :
-		LiftTarget("Lift Feed", ANGLE_FEED) {
+	LiftTarget("Lift Feed", ANGLE_FEED) {
+}
+void LiftFeed::Initialize() {
+	Robot::lights->setFeed(Lights::kLifting);
+}
+void LiftFeed::Execute() {
+	Robot::lights->setFeed(OnTarget() ? Lights::kReady : Lights::kLifting);
+}
+void LiftFeed::End() {
+	LiftTarget::End();
+	Robot::lights->setFeed(Lights::kNone);
+}
+void LiftFeed::Interrupted() {
+	LiftTarget::Interrupted();
+	Robot::lights->setFeed(Lights::kNone);
 }
