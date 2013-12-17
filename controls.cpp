@@ -31,6 +31,19 @@ public:
 		Robot::shooterWheel->setEncoderBroken(vv);
 	}
 };
+class SetDriveVoltage: public OneShotCommand {
+private:
+	bool vv;
+public:
+	SetDriveVoltage(bool val) :
+		OneShotCommand("Control change") {
+		SetRunWhenDisabled(true);
+		vv = val;
+	}
+	virtual void Execute() {
+		Robot::drive->SetVoltageMode(vv);
+	}
+};
 
 Command* makeDumpIfDeployed() {
 	Dump* d = new Dump();
@@ -38,43 +51,50 @@ Command* makeDumpIfDeployed() {
 	return f;
 }
 
-OI::OI() {
+OI::OI() :
+			leftDrive(1),
+			rightDrive(2),
+			auxStick(3),
+			virtualStick(4),
+			// Brokens
+			indexBroken(&virtualStick, 1),
+			wheelEncBroken(&virtualStick, 2),
+			angleBroken(&virtualStick, 3),
+			voltageDriveMode(&virtualStick, 4),
+			coastMode(&virtualStick, 5),
+			climberLimitsBroken(&virtualStick, 6),
+			// mysteryButton(
+			continuousShooting(&virtualStick, 8),
+			// Aux
+			shoot(&auxStick, 1), feed(&auxStick, 2),
+			climbOverride(&auxStick, 10), dump1(&auxStick, 11),
+			deploy(&auxStick, 6),
+			// LHS
+			driveDebug(&leftDrive, 11), shooterDebug(&leftDrive, 6),
+			climberDebug(&leftDrive, 7),
+			// RHS
+			dump2(&rightDrive, 11) {
 	// Process operator interface input here.
-	leftDrive = new Joystick(1);
-	rightDrive = new Joystick(2);
-	auxStick = new Joystick(3);
-	virtualStick = new Joystick(4);
-	
-	indexBroken = new JoystickButton(virtualStick, 1);
-	indexBroken->WhileHeld(new IndexManual());
-	angleBroken = new JoystickButton(virtualStick, 3);
-	angleBroken->WhileHeld(new LiftManual());
-	coastMode = new JoystickButton(virtualStick, 5);
-	coastMode->WhileHeld(new TankDrive(Drive::kCoast));
-	wheelEncBroken = new JoystickButton(virtualStick, 2);
-	wheelEncBroken->WhenPressed(new SetEncoder(true));
-	wheelEncBroken->WhenReleased(new SetEncoder(false));
 
-	shoot = new JoystickButton(auxStick, 1);
-	shoot->WhileHeld(new ShootDisk());
-	feed = new JoystickButton(auxStick, 2);
-	feed->WhileHeld(new LiftFeed());
-	climbOverride = new JoystickButton(auxStick, 10);
-	climbOverride->WhileHeld(new ArmsManual());
+	indexBroken.WhileHeld(new IndexManual());
+	angleBroken.WhileHeld(new LiftManual());
+	coastMode.WhileHeld(new TankDrive(Drive::kCoast));
+	wheelEncBroken.WhenPressed(new SetEncoder(true));
+	wheelEncBroken.WhenReleased(new SetEncoder(false));
+	voltageDriveMode.WhenPressed(new SetDriveVoltage(true));
+	voltageDriveMode.WhenReleased(new SetDriveVoltage(false));
 
-	dump1 = new JoystickButton(auxStick, 11);
-	dump2 = new JoystickButton(rightDrive, 11);
-	dump1->WhenPressed(new DoIfDeployed(new Dump()));
-	dump2->WhenPressed(new DoIfDeployed(new Dump()));
-	deploy = new JoystickButton(auxStick, 6);
-	deploy->WhenPressed(new DeploySequence());
+	shoot.WhileHeld(new ShootDisk());
+	feed.WhileHeld(new LiftFeed());
+	climbOverride.WhileHeld(new ArmsManual());
 
-	driveDebug = new JoystickButton(leftDrive, 11);
-	driveDebug->WhileHeld(new DebugDrive());
-	shooterDebug = new JoystickButton(leftDrive, 6);
-	shooterDebug->WhileHeld(new DebugShooter());
-	climberDebug = new JoystickButton(leftDrive, 7);
-	climberDebug->WhileHeld(new DebugClimber());
+	dump1.WhenPressed(new DoIfDeployed(new Dump()));
+	dump2.WhenPressed(new DoIfDeployed(new Dump()));
+	deploy.WhenPressed(new DeploySequence());
+
+	driveDebug.WhileHeld(new DebugDrive());
+	shooterDebug.WhileHeld(new DebugShooter());
+	climberDebug.WhileHeld(new DebugClimber());
 
 	// SmartDashboard Buttons
 	addSD(new AutonBackToHigh());
@@ -124,36 +144,39 @@ double getDrivePower(Joystick* stick) {
 }
 
 double OI::getLeftDrivePower() {
-	return getDrivePower(leftDrive);
+	return getDrivePower(&leftDrive);
 }
 
 double OI::getRightDrivePower() {
-	return getDrivePower(rightDrive);
+	return getDrivePower(&rightDrive);
 }
 
 double OI::getSpeedSliderValue() {
-	double slider = virtualStick->GetX();
+	double slider = virtualStick.GetX();
 	return linearRangeScale(slider, -1.0f, 1.0f, 0.3f, 1.0f);
 }
 
 double OI::getAngleSliderValue() {
-	double pre = -1 * virtualStick->GetY();
+	double pre = -1 * virtualStick.GetY();
 	return pre;
 }
 
 double OI::getIndexManualPower() {
-	return auxStick->GetX(GenericHID::kRightHand);
+	return auxStick.GetX(GenericHID::kRightHand);
 }
 
 double OI::getClimberPower() {
-	return -1 * auxStick->GetY();
+	return -1 * auxStick.GetY();
 }
 
 bool OI::getClimberLimitsBroken() {
-	return virtualStick->GetRawButton(6);
+	return climberLimitsBroken.Get();
 }
 
 bool OI::getContinuousShooting() {
-	return virtualStick->GetRawButton(8);
+	return continuousShooting.Get();
 }
 
+bool OI::getDriveOnVoltage() {
+	return voltageDriveMode.Get();
+}

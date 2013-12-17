@@ -3,8 +3,9 @@
 
 #include "WPILib.h"
 #include "../utils/mono_encoder.h"
+#include "../utils/resettable_subsystem.h"
 
-class Drive: public Subsystem {
+class Drive: public ResettableSubsystem {
 public:
 	typedef enum {
 		kCoast, kBrake
@@ -12,8 +13,10 @@ public:
 
 	Drive();
 	void InitDefaultCommand();
+	virtual void Reset();
 
 	void SetCoast(NeutralMode coast);
+	void SetVoltageMode(bool on);
 	void Set(double left, double right);
 
 	double getLeftCurrent();
@@ -30,6 +33,7 @@ private:
 
 	double power_left;
 	double power_right;
+	bool voltage_mode;
 };
 
 #endif /* DRIVE_H_ */

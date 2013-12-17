@@ -15,26 +15,31 @@ public:
 
 	bool getClimberLimitsBroken();
 	bool getContinuousShooting();
+	bool getDriveOnVoltage();
 private:
-	Joystick* virtualStick;
-	JoystickButton* indexBroken;
-	JoystickButton* angleBroken;
-	JoystickButton* coastMode;
-	JoystickButton* wheelEncBroken;
+	Joystick leftDrive;
+	Joystick rightDrive;
+	Joystick auxStick;
+	Joystick virtualStick;
+	
+	JoystickButton indexBroken;
+	JoystickButton wheelEncBroken;
+	JoystickButton angleBroken;
+	JoystickButton voltageDriveMode;
+	JoystickButton coastMode;
+	JoystickButton climberLimitsBroken;
+	JoystickButton continuousShooting;
 
-	Joystick* auxStick;
-	JoystickButton* shoot;
-	JoystickButton* feed;
-	JoystickButton* climbOverride;
-	JoystickButton* dump1;
-	JoystickButton* dump2;
-	JoystickButton* deploy;
+	JoystickButton shoot;
+	JoystickButton feed;
+	JoystickButton climbOverride;
+	JoystickButton dump1;
+	JoystickButton deploy;
 
-	Joystick* rightDrive;
-
-	Joystick* leftDrive;
-	JoystickButton* driveDebug;
-	JoystickButton* shooterDebug;
-	JoystickButton* climberDebug;
+	JoystickButton driveDebug;
+	JoystickButton shooterDebug;
+	JoystickButton climberDebug;
+	
+	JoystickButton dump2;
 };
 #endif
