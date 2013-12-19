@@ -26,6 +26,8 @@ Servo* RobotMap::dumperServo = NULL;
 
 Servo* RobotMap::deployerServo = NULL;
 
+Servo* RobotMap::cameraServo = NULL;
+
 void RobotMap::init() {
 	LiveWindow* lw = LiveWindow::GetInstance();
 	indexerIndexerWheel = new CANJaguar(10);
@@ -75,4 +77,7 @@ void RobotMap::init() {
 
 	deployerServo = new Servo(3);
 	lw->AddActuator("Deployer", "Servo", deployerServo);
+	
+	cameraServo = new Servo(1);
+	lw->AddActuator("Camera", "Servo", cameraServo);
 }

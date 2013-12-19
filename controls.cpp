@@ -69,6 +69,8 @@ OI::OI() :
 			shoot(&auxStick, 1), feed(&auxStick, 2),
 			climbOverride(&auxStick, 10), dump1(&auxStick, 11),
 			deploy(&auxStick, 6),
+			cameraUp(&auxStick, 5),
+			cameraDown(&auxStick, 4),
 			// LHS
 			driveDebug(&leftDrive, 11), shooterDebug(&leftDrive, 6),
 			climberDebug(&leftDrive, 7),
@@ -184,4 +186,12 @@ bool OI::getDriveOnVoltage() {
 
 bool OI::getCoastMode() {
 	return coastMode.Get();
+}
+
+bool OI::getCameraUp() {
+	return cameraUp.Get();
+}
+
+bool OI::getCameraDown() {
+	return cameraDown.Get();
 }

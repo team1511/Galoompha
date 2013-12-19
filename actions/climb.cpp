@@ -1,5 +1,6 @@
 #include "../actions/climb.h"
 #include "../actions/lift.h"
+#include "../actions/cameratilt.h"
 #include "../robot.h"
 
 const double CLIMB_ANGLE = 0.95;
@@ -7,6 +8,7 @@ const double CLIMB_ANGLE = 0.95;
 DeploySequence::DeploySequence() :
 		CommandGroup("Deploy Sequence") {
 	AddParallel(new LockShooterBlob());
+	AddParallel(new CameraClimbMode());
 
 	AddSequential(new LiftToTarget(CLIMB_ANGLE));
 	AddSequential(new Deploy());

@@ -17,6 +17,7 @@
 #include "systems/climber.h"
 #include "systems/lights.h"
 #include "systems/dashboard.h"
+#include "systems/camera.h"
 
 class Robot: public SimpleRobot {
 public:
@@ -33,6 +34,7 @@ public:
 	static Deployer* deployer;
 	static Lights* lights;
 	static DashBoard* dashboard;
+	static CameraTilter* cameraTilt;
 	// methods
 	virtual void RobotInit();
 	virtual void Disabled();

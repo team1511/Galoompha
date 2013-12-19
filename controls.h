@@ -17,6 +17,9 @@ public:
 	bool getContinuousShooting();
 	bool getDriveOnVoltage();
 	bool getCoastMode();
+	
+	bool getCameraUp();
+	bool getCameraDown();
 private:
 	Joystick leftDrive;
 	Joystick rightDrive;
@@ -36,6 +39,8 @@ private:
 	JoystickButton climbOverride;
 	JoystickButton dump1;
 	JoystickButton deploy;
+	JoystickButton cameraUp;
+	JoystickButton cameraDown;
 
 	JoystickButton driveDebug;
 	JoystickButton shooterDebug;

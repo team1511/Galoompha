@@ -32,5 +32,7 @@ public:
 	static Servo* dumperServo;
 
 	static Servo* deployerServo;
+	
+	static Servo* cameraServo;
 };
 #endif

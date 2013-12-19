@@ -15,6 +15,7 @@ Dumper* Robot::dumper = 0;
 Deployer* Robot::deployer = 0;
 Lights* Robot::lights = 0;
 DashBoard* Robot::dashboard = 0;
+CameraTilter* Robot::cameraTilt = 0;
 
 const double kRobotPeriod = 0.05;
 
@@ -36,6 +37,7 @@ void Robot::RobotInit() {
 	deployer = new Deployer();
 	lights = new Lights();
 	dashboard = new DashBoard();
+	cameraTilt = new CameraTilter();
 
 	printf("SUBSSYTEMS:\n");
 	
@@ -45,18 +47,14 @@ void Robot::RobotInit() {
 	// yet. Thus, their requires() statements may grab null pointers. Bad
 	// news. Don't move it.
 	oi = new OI();
-	
-	printf("OI:\n");
 
 	lw = LiveWindow::GetInstance();
-	
-	printf("LW:\n");
-//
-//	autonSelector = new SendableCommandChooser("Autonomous Command Chooser");
-//	autonSelector->AddDefault(new AutonNull());
-//	autonSelector->AddCommand(new AutonBackToHigh());
-//	autonSelector->AddCommand(new AutonFrontCenterToHigh());
-//	autonSelector->AddCommand(new AutonBackToMid());
+
+	autonSelector = new SendableCommandChooser("Autonomous Command Chooser");
+	autonSelector->AddDefault(new AutonNull());
+	autonSelector->AddCommand(new AutonBackToHigh());
+	autonSelector->AddCommand(new AutonFrontCenterToHigh());
+	autonSelector->AddCommand(new AutonBackToMid());
 }
 
 //The Pseudocode for each section is:
