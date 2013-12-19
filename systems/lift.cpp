@@ -11,7 +11,8 @@ AnglingTool::AnglingTool() :
 		Subsystem("AnglingTool") {
 	anglePot = RobotMap::anglingToolAnglePot;
 	liftLeadscrew = RobotMap::anglingToolLiftLeadscrew;
-	speed = 0;
+	speed = 0.0;
+	target = 0.0;
 }
 
 void AnglingTool::InitDefaultCommand() {
@@ -38,4 +39,12 @@ double AnglingTool::getSpeed() {
 
 double AnglingTool::getCurrent() {
 	return liftLeadscrew->GetOutputCurrent();
+}
+
+void AnglingTool::setTarget(double ang) {
+	target = ang;
+}
+
+double AnglingTool::getTarget() {
+	return target;
 }

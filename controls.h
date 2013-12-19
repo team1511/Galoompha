@@ -16,6 +16,7 @@ public:
 	bool getClimberLimitsBroken();
 	bool getContinuousShooting();
 	bool getDriveOnVoltage();
+	bool getCoastMode();
 private:
 	Joystick leftDrive;
 	Joystick rightDrive;

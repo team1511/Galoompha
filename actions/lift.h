@@ -7,6 +7,7 @@
 class LiftManual: public CommandStub {
 public:
 	LiftManual();
+	virtual void Initialize();
 	virtual void Execute();
 };
 
@@ -23,6 +24,7 @@ class LiftTarget: public PIDCommandStub {
 public:
 	LiftTarget(double angle);
 	LiftTarget(const char* name, double angle);
+	virtual void Initialize();
 	virtual double ReturnPIDInput();
 	virtual void UsePIDOutput(double output);
 	bool OnTarget();

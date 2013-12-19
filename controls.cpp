@@ -83,7 +83,8 @@ OI::OI() :
 	wheelEncBroken.WhenReleased(new SetEncoder(false));
 	voltageDriveMode.WhenPressed(new SetDriveVoltage(true));
 	voltageDriveMode.WhenReleased(new SetDriveVoltage(false));
-
+	voltageDriveMode.WhenPressed(new PrintCommand("VOLT!"));
+	
 	shoot.WhileHeld(new ShootDisk());
 	feed.WhileHeld(new LiftFeed());
 	climbOverride.WhileHeld(new ArmsManual());
@@ -179,4 +180,8 @@ bool OI::getContinuousShooting() {
 
 bool OI::getDriveOnVoltage() {
 	return voltageDriveMode.Get();
+}
+
+bool OI::getCoastMode() {
+	return coastMode.Get();
 }

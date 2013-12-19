@@ -47,6 +47,9 @@ void DebugDrive::Execute() {
 	d.line2("Pow %1.5f %1.5f", r->getLeftPower(), r->getRightPower());
 	d.line3("Cur %2.4f %2.4f", r->getLeftCurrent(), r->getRightCurrent());
 	d.line4("Spd %2.4f %2.4f", r->getLeftSpeed(), r->getRightSpeed());
+	
+	d.line5("Volt %c", b2c(r->isVoltaging()));
+	d.line6("Coast %c", b2c(Robot::oi->getCoastMode()));
 }
 
 DebugClimber::DebugClimber() :

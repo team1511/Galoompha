@@ -18,6 +18,9 @@ LiftManual::LiftManual() :
 	Requires(Robot::anglingTool);
 	Requires(Robot::lights);
 }
+void LiftManual::Initialize() {
+	Robot::anglingTool->setTarget(-1.0);
+}
 void LiftManual::Execute() {
 	double slider = Robot::oi->getAngleSliderValue();
 
@@ -40,7 +43,9 @@ void LiftStatic::Initialize() {
 	Robot::lights->setFeed(Lights::kNone);
 }
 void LiftStatic::Execute() {
-	GetPIDController()->SetSetpoint(Robot::oi->getAngleSliderValue());
+	double angle = Robot::oi->getAngleSliderValue();
+	GetPIDController()->SetSetpoint(angle);
+	Robot::anglingTool->setTarget(angle);
 }
 double LiftStatic::ReturnPIDInput() {
 	return Robot::anglingTool->getAngle();
@@ -64,6 +69,9 @@ LiftTarget::LiftTarget(const char* name, double angle) :
 	Requires(Robot::anglingTool);
 	Requires(Robot::lights);
 	GetPIDController()->SetSetpoint(angle);
+}
+void LiftTarget::Initialize() {
+	Robot::anglingTool->setTarget(GetPIDController()->GetSetpoint());
 }
 double LiftTarget::ReturnPIDInput() {
 	return Robot::anglingTool->getAngle();
@@ -92,6 +100,7 @@ LiftFeed::LiftFeed() :
 	LiftTarget("Lift Feed", ANGLE_FEED) {
 }
 void LiftFeed::Initialize() {
+	LiftTarget::Initialize();
 	Robot::lights->setFeed(Lights::kLifting);
 }
 void LiftFeed::Execute() {

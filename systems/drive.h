@@ -25,6 +25,9 @@ public:
 	double getRightCurrent();
 	double getRightSpeed();
 	double getRightPower();
+	
+	bool isCoasting();
+	bool isVoltaging();
 private:
 	CANJaguar* leftMotor;
 	CANJaguar* rightMotor;
@@ -33,6 +36,8 @@ private:
 
 	double power_left;
 	double power_right;
+	
+	bool coast_mode;
 	bool voltage_mode;
 };
 

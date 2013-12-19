@@ -10,12 +10,16 @@ public:
 
 	void setSpeed(double speed);
 
+	void setTarget(double angle);
+
 	double getAngle();
 	double getSpeed();
 	double getCurrent();
+	double getTarget();
 private:
 	AnalogChannel* anglePot;
 	CANJaguar* liftLeadscrew;
 	double speed;
+	double target;
 };
 #endif

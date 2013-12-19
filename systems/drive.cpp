@@ -11,7 +11,8 @@ Drive::Drive() :
 	rightEncoder = RobotMap::driveRightEncoder;
 	power_left = 0.0;
 	power_right = 0.0;
-	voltage_mode = true;
+	voltage_mode = false;
+	coast_mode = false;
 }
 
 void Drive::InitDefaultCommand() {
@@ -20,35 +21,34 @@ void Drive::InitDefaultCommand() {
 
 void Drive::Reset() {
 	bool b = Robot::oi->getDriveOnVoltage();
-	if (b && !voltage_mode) {
-		SetVoltageMode(true);
+	if (b != voltage_mode) {
+		SetVoltageMode(b);
 	}
+	voltage_mode = b;
 }
 
 void Drive::SetCoast(Drive::NeutralMode coast) {
 	CANJaguar::NeutralMode flag;
 	if (coast == kCoast) {
 		flag = CANJaguar::kNeutralMode_Coast;
+		coast_mode = true;
 	} else {
 		flag = CANJaguar::kNeutralMode_Brake;
+		coast_mode = false;
 	}
 	leftMotor->ConfigNeutralMode(flag);
 	rightMotor->ConfigNeutralMode(flag);
 }
 
 void Drive::SetVoltageMode(bool on) {
-	CANJaguar::ControlMode m;
+	
 	voltage_mode = on;
-	if (voltage_mode) {
-		m = CANJaguar::kPercentVbus;
-	} else {
-		m = CANJaguar::kVoltage;
-	}
+	CANJaguar::ControlMode m = voltage_mode ? CANJaguar::kVoltage : CANJaguar::kPercentVbus;
 	leftMotor->ChangeControlMode(m);
-	leftMotor->EnableControl();
-
 	rightMotor->ChangeControlMode(m);
+
 	rightMotor->EnableControl();
+	leftMotor->EnableControl();
 }
 
 void Drive::Set(double left, double right) {
@@ -56,7 +56,7 @@ void Drive::Set(double left, double right) {
 	power_right = right;
 	if (voltage_mode) {
 		leftMotor->Set(13.0 * left);
-		rightMotor->Set(13.0 * -right);
+		rightMotor->Set(-13.0 * right);
 	} else {
 		leftMotor->Set(left);
 		rightMotor->Set(-right);
@@ -80,4 +80,11 @@ double Drive::getRightSpeed() {
 }
 double Drive::getRightPower() {
 	return power_right;
+}
+
+bool Drive::isCoasting() {
+	return coast_mode;
+}
+bool Drive::isVoltaging() {
+	return voltage_mode;
 }
